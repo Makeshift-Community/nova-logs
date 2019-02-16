@@ -1,4 +1,4 @@
-var { Command } = require("discord.js-commando");
+var { Command } = require("discord.js-commando")
 
 module.exports = class command extends Command {
 	constructor(client) {
@@ -11,15 +11,14 @@ module.exports = class command extends Command {
 			memberName: "restart",
 			description: "Restarts a part of Nova",
 			ownerOnly : true
-		});
+		})
 	}
 
 	async run(msg, args) {
-		if(args.toLowerCase() == "nova-logs"){
-			msg.react("📝");
-			console.log("Bot restarted by user " + msg.author.tag);
-			process.exit(1);
-		}
-		return;
+		if(args.toLowerCase() != "nova-logs") return
+		await msg.react("📝")
+			.catch(e => console.error(e))
+		console.log("Bot restarted by user " + msg.author.tag)
+		process.exit(1)
 	}
-};
+}
