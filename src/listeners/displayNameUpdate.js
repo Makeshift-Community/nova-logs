@@ -1,11 +1,15 @@
 var moment = require("moment")
+var removeFormatting = require("./../utils/removeFormatting")
 
 module.exports = function(client, channel){
 
 	client
 		.on("guildMemberUpdate", (oldMember, newMember) => {
+			if(process.env.DEBUG) console.debug("guildMemberUpdate")
+			if(process.env.DEBUG) console.debug(`${newMember.user.tag}`)
 			//Check to see if member is present on monitored guild.
-			if(newMember.guild != channel.guild) return
+			if(!newMember) return
+			if(newMember.guild != client.channels.get(channel).guild) return
 			//Check if displayname changed.
 			if(oldMember.displayName == newMember.displayName) return
 			
@@ -35,7 +39,8 @@ module.exports = function(client, channel){
 	 * @param {*} user The user.
 	 */
 	function send_embed_aliasChange(alias_old, alias_new, user){
-		//if(guildMember.guild != channel.guild) return;
+		alias_old = removeFormatting(alias_old)
+		alias_new = removeFormatting(alias_new)
 		const embed = {
 			"embed": {
 				"color": 3447003, //Blue
