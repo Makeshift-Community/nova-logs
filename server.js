@@ -34,20 +34,12 @@ require("./src/listeners/join")(makeshiftbot, makeshift.channels.text.modlogs)
 require("./src/listeners/leave")(makeshiftbot, makeshift.channels.text.modlogs)
 require("./src/listeners/displayNameUpdate")(makeshiftbot, makeshift.channels.text.modlogs)
 
-//Start error handlers
-require("./../src/listeners/error")(makeshiftbot)
-require("./../src/listeners/disconnect")(makeshiftbot)
-require("./../src/listeners/guildUnavailable")(makeshiftbot)
-require("./../src/listeners/ready")(makeshiftbot)
-require("./../src/listeners/reconnecting")(makeshiftbot)
-require("./../src/listeners/resume")(makeshiftbot)
-
 const handlerOptions = {
 	logAllGuilds: false,
 	guilds: [
 		makeshift.guild
 	],
-	name: "nova-public",
+	name: "nova-logs",
 	notify: {
 		users: [
 			"153595272465743872"
