@@ -1,11 +1,11 @@
-var moment = require("moment");
+var moment = require("moment")
 
 module.exports = function(client, channel){
 	client
 		.on("guildMemberAdd", (guildMember)=>{
 			//Check to see if member is present on monitored guild.
-			if(guildMember.guild != channel.guild) return;
-			console.log("MEMBER JOINED: " + guildMember.user.id + " (" + guildMember.displayName + ")");
+			if(guildMember.guild != channel.guild) return
+			console.log("MEMBER JOINED: " + guildMember.user.id + " (" + guildMember.displayName + ")")
 			client.channels.get(channel).send(
 				`📥 ${guildMember.displayName} joined`,
 				{
@@ -30,6 +30,6 @@ module.exports = function(client, channel){
 						]
 					}
 				}
-			);
-		});
-};
+			)
+		})
+}

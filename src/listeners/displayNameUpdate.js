@@ -1,30 +1,32 @@
-var moment = require("moment");
+var moment = require("moment")
 
 module.exports = function(client, channel){
 
 	client
 		.on("guildMemberUpdate", (oldMember, newMember) => {
 			//Check to see if member is present on monitored guild.
-			if(newMember.guild != channel.guild) return;
+			if(newMember.guild != channel.guild) return
 			//Check if displayname changed.
-			if(oldMember.displayName == newMember.displayName) return;
+			if(oldMember.displayName == newMember.displayName) return
+			
 			//Log
-			console.log("MEMBER DISPLAYNAME CHANGED: " + newMember.user.id + " (" + oldMember.displayName + " to " + newMember.displayName + ")");
-			send_embed_aliasChange(oldMember.displayName, newMember.displayName, newMember.user);
+			console.log("MEMBER DISPLAYNAME CHANGED: " + newMember.user.id + " (" + oldMember.displayName + " to " + newMember.displayName + ")")
+			send_embed_aliasChange(oldMember.displayName, newMember.displayName, newMember.user)
 		})
 		.on("userUpdate", (oldUser, newUser) => {
 			//Attempt to fetch user as member of monitored guild.
-			var member = client.channels.get(channel).guild.members.get(newUser.id);
+			var member = client.channels.get(channel).guild.members.get(newUser.id)
 			//Check if user is member on monitored guild.
-			if(!member) return;
+			if(!member) return
 			//Check if member already has a nickname set
-			if(member.nickname) return;
+			if(member.nickname) return
 			//Check if username changed.
-			if(oldUser.username == newUser.username) return;
+			if(oldUser.username == newUser.username) return
+
 			//Log
-			console.log("USER NAME CHANGED: " + newUser.id + " ("+oldUser.username + " to " + newUser.username + ")");
-			send_embed_aliasChange(oldUser.username, newUser.username, newUser);
-		});
+			console.log("USER NAME CHANGED: " + newUser.id + " ("+oldUser.username + " to " + newUser.username + ")")
+			send_embed_aliasChange(oldUser.username, newUser.username, newUser)
+		})
 	
 	/**
 	 * Sends an embed documenting the change of a users displayName.
@@ -34,35 +36,34 @@ module.exports = function(client, channel){
 	 */
 	function send_embed_aliasChange(alias_old, alias_new, user){
 		//if(guildMember.guild != channel.guild) return;
-		client.channels.get(channel).send(`📝 ${alias_old} is now called ${alias_new}`,
-			{
-				"embed": {
-					"color": 3447003, //Blue
-					"fields": [
-						{
-							"name": "User",
-							"value": user.toString(),
-							"inline": true
-						},
-						{
-							"name": "Old alias",
-							"value": alias_old,
-							"inline": true
-						},
-						{
-							"name": "New alias",
-							"value": alias_new,
-							"inline": true
-						},
-						{
-							"name": "Date",
-							"value": moment.utc().format(),
-							"inline": true
-						}
-					]
-				}
+		const embed = {
+			"embed": {
+				"color": 3447003, //Blue
+				"fields": [
+					{
+						"name": "User",
+						"value": user.toString(),
+						"inline": true
+					},
+					{
+						"name": "Old alias",
+						"value": alias_old,
+						"inline": true
+					},
+					{
+						"name": "New alias",
+						"value": alias_new,
+						"inline": true
+					},
+					{
+						"name": "Date",
+						"value": moment.utc().format(),
+						"inline": true
+					}
+				]
 			}
-		);
+		}
+		client.channels.get(channel).send(`📝 ${alias_old} is now called ${alias_new}`, embed)
 	}
 
-};
+}
