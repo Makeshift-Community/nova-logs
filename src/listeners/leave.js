@@ -1,4 +1,5 @@
 var moment = require("moment")
+var removeFormatting = require("./../utils/removeFormatting")
 
 module.exports = function(client, channel){
 	client
@@ -18,7 +19,7 @@ module.exports = function(client, channel){
 						},
 						{
 							"name": "Alias",
-							"value": guildMember.displayName,
+							"value": removeFormatting(guildMember.displayName),
 							"inline": true
 						},
 						{
@@ -29,6 +30,6 @@ module.exports = function(client, channel){
 					]
 				}
 			}
-			client.channels.get(channel).send(`📤 ${guildMember.displayName} left`, embed)
+			client.channels.get(channel).send(`📤 ${removeFormatting(guildMember.displayName)} left`, embed)
 		})
 }
