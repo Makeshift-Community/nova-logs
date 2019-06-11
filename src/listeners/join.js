@@ -5,7 +5,7 @@ module.exports = function(client, channel){
 	client
 		.on("guildMemberAdd", (guildMember)=>{
 			//Check to see if member is present on monitored guild.
-			if(guildMember.guild != channel.guild) return
+			if(guildMember.guild != client.channels.get(channel).guild) return
 			console.log("MEMBER JOINED: " + guildMember.user.id + " (" + guildMember.displayName + ")")
 			const embed = {
 				"embed": {
