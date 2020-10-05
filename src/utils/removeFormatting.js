@@ -1,11 +1,7 @@
-module.exports = function(text) {
-	text = text.replace(/\\/g, "\\\\")
-		.replace(/\*/g, "\\*")
-		.replace(/_/g, "\\_")
-		.replace(/~/g, "\\~")
-		.replace(/\|/g, "\\|")
-		.replace(/`/g, "\\`")
-		.replace(/</g, "\\<")
-		.replace(/>/g, "\\>")
-	return text
+const discordMarkdownRegex = /([\\\*_~\|`<>])/g
+
+export default function(text) {
+	return text.replace(discordMarkdownRegex, (match)=>{
+		return `\\${match}`
+	})
 }
