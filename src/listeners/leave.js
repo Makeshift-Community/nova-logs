@@ -5,8 +5,11 @@ export default function (client, channel) {
   client
     .on("guildMemberRemove", (guildMember) => {
       // Check to see if member is present on monitored guild.
-      if (guildMember.guild !== client.channels.get(channel).guild) return
-      console.log("MEMBER JOINED: " + guildMember.user.id + " (" + guildMember.displayName + ")")
+      let announcementChannel = client.channels.cache.get(channel)
+      if (guildMember.guild !== announcementChannel.guild) return
+
+      //Member joined, do announcement
+      console.log(`MEMBER LEFT: ${guildMember.user.id} (${guildMember.displayName})`)
       const embed = {
         embed: {
           color: 15844367, // Yellow
@@ -29,6 +32,6 @@ export default function (client, channel) {
           ]
         }
       }
-      client.channels.get(channel).send(`📤 ${removeFormatting(guildMember.displayName)} left`, embed)
+      announcementChannel.send(`📤 ${removeFormatting(guildMember.displayName)} left`, embed)
     })
 }

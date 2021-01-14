@@ -1,11 +1,11 @@
-import makeshift from "../resources/makeshift.js"
+import { channel as modlogs } from "../resources/guild.js"
 
 import displayNameUpdate from "./displayNameUpdate.js"
 import join from "./join.js"
 import leave from "./leave.js"
 
 export default function (client) {
-  join(client, makeshift.channels.text.modlogs)
-  leave(client, makeshift.channels.text.modlogs)
-  displayNameUpdate(client, makeshift.channels.text.modlogs)
+  join(client, modlogs)
+  leave(client, modlogs)
+  displayNameUpdate(client, modlogs)
 }
