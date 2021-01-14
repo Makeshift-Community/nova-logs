@@ -1,34 +1,30 @@
 // Dependencies
-import Akairo from "discord-akairo"
+import Discord from "discord.js"
 import discordErrorHandler from "discord.js-handles"
 
 // Load info
 import token from "./token.js" // I'm an idiot, thanks for the lesson
-import makeshift from "./src/resources/makeshift.js"
+import { guild } from "./src/resources/guild.js"
 
 // Load commands
 import listeners from "./src/listeners/index.js"
 
 // Start
-const makeshiftbot = new Akairo.AkairoClient(
+const makeshiftbot = new Discord.Client(
   {
-    messageCacheMaxSize: 2000,
-    disableMentions: ["roles", "everyone"],
+    messageCacheMaxSize: 1000,
+    disableMentions: "everyone",
     presence: {
       activity: {
         name: "@Nova help",
-        type: Akairo.PLAYING
+        type: Discord.PLAYING
       }
     },
     ws: {
       intents: [
-        Akairo.GUILD_MEMBERS
+        Discord.GUILD_MEMBERS
       ]
     }
-  }, {
-    ownerID: "153595272465743872",
-    commandPrefix: "/",
-    unknownCommandResponse: false
   }
 )
 
@@ -38,7 +34,7 @@ listeners(makeshiftbot)
 const handlerOptions = {
   logAllGuilds: false,
   guilds: [
-    makeshift.guild
+    guild
   ],
   name: "nova-logs",
   notify: {
