@@ -1,5 +1,5 @@
-import moment from "moment"
-import removeFormatting from "../utils/removeFormatting.js"
+import moment from 'moment'
+import removeFormatting from '../utils/removeFormatting.js'
 
 let client2
 
@@ -17,22 +17,22 @@ function send_embed_aliasChange (alias_old, alias_new, user) {
       color: 3447003, // Blue
       fields: [
         {
-          name: "User",
+          name: 'User',
           value: user.toString(),
           inline: true
         },
         {
-          name: "Old alias",
+          name: 'Old alias',
           value: alias_old,
           inline: true
         },
         {
-          name: "New alias",
+          name: 'New alias',
           value: alias_new,
           inline: true
         },
         {
-          name: "Date",
+          name: 'Date',
           value: moment.utc().format(),
           inline: true
         }
@@ -42,11 +42,9 @@ function send_embed_aliasChange (alias_old, alias_new, user) {
   client2.channels.get(channel).send(`📝 ${alias_old} is now called ${alias_new}`, embed)
 }
 
-
-
 export default function (client, channel) {
   client
-    .on("guildMemberUpdate", (oldMember, newMember) => {
+    .on('guildMemberUpdate', (oldMember, newMember) => {
       // Check to see if member is present on monitored guild.
       if (!newMember) return
       if (newMember.guild !== client.channels.cache.get(channel).guild) return
@@ -57,7 +55,7 @@ export default function (client, channel) {
       console.log(`MEMBER DISPLAYNAME CHANGED: ${newMember.user.id} (${oldMember.displayName} to ${newMember.displayName})`)
       send_embed_aliasChange(oldMember.displayName, newMember.displayName, newMember.user)
     })
-    .on("userUpdate", (oldUser, newUser) => {
+    .on('userUpdate', (oldUser, newUser) => {
       // Attempt to fetch user as member of monitored guild.
       var member = client.channels.cache.get(channel).guild.members.cache.get(newUser.id)
       // Check if user is member on monitored guild.
@@ -72,6 +70,5 @@ export default function (client, channel) {
       send_embed_aliasChange(oldUser.username, newUser.username, newUser)
     })
 
-
-    client2 = client
+  client2 = client
 }

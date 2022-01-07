@@ -1,1 +1,1 @@
-export default "TOKEN GOES HERE"
+export default 'TOKEN GOES HERE'
