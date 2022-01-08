@@ -2,7 +2,7 @@
 import { Client, Intents } from 'discord.js'
 
 // Custom dependencies
-import token from './token.js' // I'm an idiot, thanks for the lesson
+import token from './src/resources/token.js' // I'm an idiot, thanks for the lesson
 import registerListeners from './src/listeners/index.js'
 
 const makeshiftbot = new Client({
