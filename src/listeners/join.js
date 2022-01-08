@@ -7,8 +7,7 @@ export default function (client) {
   client.on('guildMemberAdd', handle)
 }
 
-const handle = async function(member) {
-
+const handle = async function (member) {
   // Check to see if member is present on monitored guild
   if (member.guild.id !== guildId) { return }
   console.log(`guildMemberAdd: ${member.user.id} alias ${member.displayName}`)
@@ -25,9 +24,8 @@ const handle = async function(member) {
     .addField('Date', Formatters.time(new Date()), true)
 
   modlogs.send({
-	  content: `📥 ${member} joined`,
-	  embeds: [ embed ]
-	})
-	  .catch(console.error)
-
+    content: `📥 ${member} joined`,
+    embeds: [embed]
+  })
+    .catch(console.error)
 }

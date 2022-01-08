@@ -6,8 +6,8 @@ import token from './token.js' // I'm an idiot, thanks for the lesson
 import registerListeners from './src/listeners/index.js'
 
 const makeshiftbot = new Client({
-    intents: [Intents.FLAGS.GUILD_MEMBERS],
-    partials: ["GUILD_MEMBER"]
+  intents: [Intents.FLAGS.GUILD_MEMBERS],
+  partials: ['GUILD_MEMBER']
 })
 
 // Register listeners
