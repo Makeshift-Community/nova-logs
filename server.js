@@ -4,6 +4,7 @@ import { Client, Intents } from 'discord.js'
 // Custom dependencies
 import token from './src/resources/token.js' // I'm an idiot, thanks for the lesson
 import registerListeners from './src/listeners/index.js'
+import notify from './src/functions/notifyOwner.js'
 
 const makeshiftbot = new Client({
   intents: [Intents.FLAGS.GUILD_MEMBERS],
@@ -21,4 +22,5 @@ makeshiftbot.login(token)
   })
   .then(() => {
     console.log(`Logged in as ${makeshiftbot.user.tag}`)
+    notify(makeshiftbot)
   })
