@@ -1,11 +1,11 @@
 import { channel as modlogs } from '../resources/makeshift.js'
 
-import displayNameUpdate from './displayNameUpdate.js'
+import rename from './rename.js'
 import join from './join.js'
 import leave from './leave.js'
 
 export default function (client) {
   join(client, modlogs)
   leave(client, modlogs)
-  displayNameUpdate(client, modlogs)
+  rename(client, modlogs)
 }
