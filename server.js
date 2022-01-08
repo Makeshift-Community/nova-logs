@@ -4,7 +4,7 @@ import { Client, Intents } from 'discord.js'
 // Load info
 import token from './token.js' // I'm an idiot, thanks for the lesson
 // Load commands
-import listeners from './src/listeners/index.js'
+import registerListeners from './src/listeners/index.js'
 
 // Start
 const makeshiftbot = new Client({
@@ -13,7 +13,7 @@ const makeshiftbot = new Client({
 })
 
 // Start logging
-listeners(makeshiftbot)
+registerListeners(makeshiftbot)
 
 // Start bot
 makeshiftbot.login(token)
