@@ -19,4 +19,6 @@ makeshiftbot.login(token)
     console.error(error)
     process.exit(1)
   })
-console.log(`Logged in as ${makeshiftbot.user.tag}`)
+  .then(() => {
+    console.log(`Logged in as ${makeshiftbot.user.tag}`)
+  })
