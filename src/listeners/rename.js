@@ -1,74 +1,35 @@
-import moment from 'moment'
-import removeFormatting from '../utils/removeFormatting.js'
+import { MessageEmbed, Formatters } from 'discord.js'
 
-let client2
+import { channel as channelId, guild as guildId } from '../resources/makeshift.js'
+import clean from '../utils/removeFormatting.js'
 
-/**
- * Sends an embed documenting the change of a users displayName.
- * @param {*} alias_old The old alias.
- * @param {*} alias_new The new Alias.
- * @param {*} user The user.
- */
-function send_embed_aliasChange (alias_old, alias_new, user) {
-  alias_old = removeFormatting(alias_old)
-  alias_new = removeFormatting(alias_new)
-  const embed = {
-    embed: {
-      color: 3447003, // Blue
-      fields: [
-        {
-          name: 'User',
-          value: user.toString(),
-          inline: true
-        },
-        {
-          name: 'Old alias',
-          value: alias_old,
-          inline: true
-        },
-        {
-          name: 'New alias',
-          value: alias_new,
-          inline: true
-        },
-        {
-          name: 'Date',
-          value: moment.utc().format(),
-          inline: true
-        }
-      ]
-    }
-  }
-  client2.channels.get(channel).send(`📝 ${alias_old} is now called ${alias_new}`, embed)
+export default function (client) {
+  client.on('guildMemberUpdate', handle)
 }
 
-export default function (client, channel) {
-  client
-    .on('guildMemberUpdate', (oldMember, newMember) => {
-      // Check to see if member is present on monitored guild.
-      if (!newMember) return
-      if (newMember.guild !== client.channels.cache.get(channel).guild) return
-      // Check if displayname changed.
-      if (oldMember.displayName === newMember.displayName) return
+const handle = async function (oldMember, newMember) {
+  // Check to see if member is present on monitored guild
+  if (newMember.guild.id !== guildId) { return }
+  console.log(`guildMemberUpdate: ${newMember.id} alias ${oldMember.displayName} to ${newMember.displayName}`)
 
-      // Log
-      console.log(`MEMBER DISPLAYNAME CHANGED: ${newMember.user.id} (${oldMember.displayName} to ${newMember.displayName})`)
-      send_embed_aliasChange(oldMember.displayName, newMember.displayName, newMember.user)
-    })
-    .on('userUpdate', (oldUser, newUser) => {
-      // Attempt to fetch user as member of monitored guild.
-      var member = client.channels.cache.get(channel).guild.members.cache.get(newUser.id)
-      // Check if user is member on monitored guild.
-      if (!member) return
-      // Check if member already has a nickname set
-      if (member.nickname) return
-      // Check if username changed.
-      if (oldUser.username === newUser.username) return
+  // Check if member changed old name
+  if (oldMember.displayName === newMember.displayName) { return }
 
-      // Log
-      console.log(`USER NAME CHANGED: ${newUser.id} (${oldUser.username} to ${newUser.username})`)
-      send_embed_aliasChange(oldUser.username, newUser.username, newUser)
-    })
+  // Attempt announcement
+  const modlogs = await newMember.client.channels.fetch(channelId)
+    .catch(console.error)
+  if (modlogs === undefined) { return }
 
-  client2 = client
+  const embed = new MessageEmbed()
+    .setColor('BLUE')
+    .addField('Old alias', clean(oldMember.displayName), true)
+    .addField('New alias', clean(newMember.displayName), true)
+    .addField('ID', newMember.id, true)
+    .addField('Date', Formatters.time(new Date()), true)
+
+  modlogs.send({
+    content: `📝 ${newMember} changed their name`,
+    embeds: [embed]
+  })
+    .catch(console.error)
 }
