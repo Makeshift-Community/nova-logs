@@ -4,30 +4,57 @@ import { channel as channelId, guild as guildId } from '../resources/makeshift.j
 import clean from '../utils/removeFormatting.js'
 
 export default function (client) {
-  client.on('guildMemberUpdate', handle)
+  client.on('guildMemberUpdate', handleMemberUpdate)
+  client.on('userUpdate', handleUserUpdate)
 }
 
-const handle = async function (oldMember, newMember) {
-  // Check to see if member is present on monitored guild
+const handleMemberUpdate = function (oldMember, newMember) {
+  // Check if even happened on monitored guild
   if (newMember.guild.id !== guildId) { return }
-  // Check if member changed old name
+
+  // Check if member changed old displayname
   if (oldMember.displayName === newMember.displayName) { return }
-  console.log(`guildMemberUpdate: ${newMember.id} alias ${oldMember.displayName} to ${newMember.displayName}`)
+
+  // Member has changed nickname, announce
+  announce(oldMember.displayName, newMember.displayName, newMember.user)
+}
+
+const handleUserUpdate = async function (oldUser, newUser) {
+  // Check if user changed user name
+  if (oldUser.username === newUser.username) { return }
+
+  // Check if user is member on monitored guild
+  const guild = await newUser.client.guilds.fetch(guildId)
+    .catch(console.error)
+  if (guild === undefined) { return }
+  const member = await guild.members.fetch(newUser.id)
+    .catch(console.error)
+  if (member === undefined) { return }
+
+  // Check if member already has a nickname
+  if (member.nickname !== null) { return }
+
+  // Member has no nickname, announce username change
+  announce(oldUser.username, newUser.username, newUser)
+}
+
+async function announce (oldName, newName, user) {
+  console.log(`guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`)
 
   // Attempt announcement
-  const modlogs = await newMember.client.channels.fetch(channelId)
+  const modlogs = await user.client.channels.fetch(channelId)
     .catch(console.error)
   if (modlogs === undefined) { return }
 
   const embed = new MessageEmbed()
     .setColor('BLUE')
-    .addField('Old alias', clean(oldMember.displayName), true)
-    .addField('New alias', clean(newMember.displayName), true)
-    .addField('ID', newMember.id, true)
+    .addField('Old alias', clean(oldName), true)
+    .addField('New alias', clean(newName), true)
+    .addField('ID', user.id, true)
     .addField('Date', Formatters.time(new Date()), true)
 
   modlogs.send({
-    content: `📝 ${newMember} changed their name`,
+    content: `📝 ${user} changed their name`,
     embeds: [embed]
   })
     .catch(console.error)
