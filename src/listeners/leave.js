@@ -1,3 +1,5 @@
+import { MessageEmbed, Formatters } from 'discord.js'
+
 import { channel as channelId } from '../resources/makeshift.js'
 import clean from '../utils/removeFormatting.js'
 
