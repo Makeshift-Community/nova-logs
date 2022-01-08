@@ -17,3 +17,8 @@ registerListeners(makeshiftbot)
 
 // Start bot
 makeshiftbot.login(token)
+  .catch(error => {
+    console.error(error)
+    process.exit(1)
+  })
+console.log(`Logged in as ${makeshiftbot.user.tag}`)
