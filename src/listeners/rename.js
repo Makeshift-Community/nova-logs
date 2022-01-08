@@ -10,10 +10,9 @@ export default function (client) {
 const handle = async function (oldMember, newMember) {
   // Check to see if member is present on monitored guild
   if (newMember.guild.id !== guildId) { return }
-  console.log(`guildMemberUpdate: ${newMember.id} alias ${oldMember.displayName} to ${newMember.displayName}`)
-
   // Check if member changed old name
   if (oldMember.displayName === newMember.displayName) { return }
+  console.log(`guildMemberUpdate: ${newMember.id} alias ${oldMember.displayName} to ${newMember.displayName}`)
 
   // Attempt announcement
   const modlogs = await newMember.client.channels.fetch(channelId)
