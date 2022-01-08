@@ -1,37 +1,31 @@
-import moment from 'moment'
-import removeFormatting from '../utils/removeFormatting.js'
+import { channel as channelId } from '../resources/makeshift.js'
+import clean from '../utils/removeFormatting.js'
 
-export default function (client, channel) {
-  client
-    .on('guildMemberRemove', (guildMember) => {
-      // Check to see if member is present on monitored guild.
-      const announcementChannel = client.channels.cache.get(channel)
-      if (guildMember.guild !== announcementChannel.guild) return
+export default function (client) {
+  client.on('guildMemberRemove', handle)
+}
 
-      // Member joined, do announcement
-      console.log(`MEMBER LEFT: ${guildMember.user.id} (${guildMember.displayName})`)
-      const embed = {
-        embed: {
-          color: 15844367, // Yellow
-          fields: [
-            {
-              name: 'User',
-              value: guildMember.user.toString(),
-              inline: true
-            },
-            {
-              name: 'Alias',
-              value: removeFormatting(guildMember.displayName),
-              inline: true
-            },
-            {
-              name: 'Date',
-              value: moment.utc().format(),
-              inline: true
-            }
-          ]
-        }
-      }
-      announcementChannel.send(`📤 ${removeFormatting(guildMember.displayName)} left`, embed)
-    })
+const handle = async function(member) {
+
+  // Check to see if member is present on monitored guild
+  if (member.guild.id !== MAKESHIFT.GUILD) { return }
+  console.log(`guildMemberRemove: ${member.user.id} alias ${member.displayName}`)
+
+  // Attempt announcement
+  const modlogs = await member.client.channels.fetch(channelId)
+    .catch(console.error)
+  if (modlogs === undefined) { return }
+
+  const embed = new MessageEmbed()
+    .setColor('YELLOW')
+    .addField('Alias', clean(member.displayName), true)
+    .addField('ID', member.id, true)
+    .addField('Date', Formatters.time(new Date()), true)
+
+  modlogs.send({
+	  content: `📤 ${member} left`,
+	  embeds: [ embed ]
+	})
+	  .catch(console.error)
+
 }

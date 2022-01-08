@@ -6,6 +6,6 @@ import leave from './leave.js'
 
 export default function (client) {
   join(client)
-  leave(client, modlogs)
+  leave(client)
   rename(client, modlogs)
 }
