@@ -20,7 +20,7 @@ const handle = async function (member) {
   const embed = new MessageEmbed()
     .setColor('YELLOW')
     .addField('Alias', clean(member.displayName), true)
-    .addField('ID', member.id, true)
+    .addField('ID', member.user.id, true)
     .addField('Date', Formatters.time(new Date()), true)
 
   modlogs.send({
