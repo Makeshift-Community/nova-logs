@@ -1,4 +1,4 @@
-import { channel as modlogs } from '../resources/guild.js'
+import { channel as modlogs } from '../resources/makeshift.js'
 
 import displayNameUpdate from './displayNameUpdate.js'
 import join from './join.js'

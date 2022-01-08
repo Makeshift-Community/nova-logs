@@ -4,7 +4,6 @@ import discordErrorHandler from 'discord.js-handles'
 
 // Load info
 import token from './token.js' // I'm an idiot, thanks for the lesson
-import { guild } from './src/resources/guild.js'
 
 // Load commands
 import listeners from './src/listeners/index.js'
