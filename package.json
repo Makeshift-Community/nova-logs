@@ -21,7 +21,6 @@
 	"license": "MIT",
 	"dependencies": {
 		"discord.js": "^13.5.0",
-		"discord.js-handles": "github:NKN1396/discord.js-handles#main",
 		"moment": "^2.29.0"
 	},
 	"devDependencies": {
