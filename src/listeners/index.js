@@ -5,7 +5,7 @@ import join from './join.js'
 import leave from './leave.js'
 
 export default function (client) {
-  join(client, modlogs)
+  join(client)
   leave(client, modlogs)
   rename(client, modlogs)
 }
