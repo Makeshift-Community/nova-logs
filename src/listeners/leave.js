@@ -1,34 +1,31 @@
-var moment = require("moment")
-var removeFormatting = require("./../utils/removeFormatting")
+import { MessageEmbed, Formatters } from 'discord.js'
 
-module.exports = function(client, channel){
-	client
-		.on("guildMemberRemove", (guildMember)=>{
-			//Check to see if member is present on monitored guild.
-			if(guildMember.guild != client.channels.get(channel).guild) return
-			console.log("MEMBER JOINED: " + guildMember.user.id + " (" + guildMember.displayName + ")")
-			const embed = {
-				"embed": {
-					"color": 15844367, //Yellow
-					"fields": [
-						{
-							"name": "User",
-							"value": guildMember.user.toString(),
-							"inline": true
-						},
-						{
-							"name": "Alias",
-							"value": removeFormatting(guildMember.displayName),
-							"inline": true
-						},
-						{
-							"name": "Date",
-							"value": moment.utc().format(),
-							"inline": true
-						}
-					]
-				}
-			}
-			client.channels.get(channel).send(`📤 ${removeFormatting(guildMember.displayName)} left`, embed)
-		})
+import { channel as channelId, guild as guildId } from '../resources/makeshift.js'
+import clean from '../utils/removeFormatting.js'
+
+export default function (client) {
+  client.on('guildMemberRemove', handle)
+}
+
+const handle = async function (member) {
+  // Check to see if member is present on monitored guild
+  if (member.guild.id !== guildId) { return }
+  console.log(`guildMemberRemove: ${member.user.id} alias ${member.displayName}`)
+
+  // Attempt announcement
+  const modlogs = await member.client.channels.fetch(channelId)
+    .catch(console.error)
+  if (modlogs === undefined) { return }
+
+  const embed = new MessageEmbed()
+    .setColor('YELLOW')
+    .addField('Alias', clean(member.displayName), true)
+    .addField('ID', member.user.id, true)
+    .addField('Date', Formatters.time(new Date()), true)
+
+  modlogs.send({
+    content: `📤 ${member} left`,
+    embeds: [embed]
+  })
+    .catch(console.error)
 }
