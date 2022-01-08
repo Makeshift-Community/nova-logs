@@ -8,8 +8,9 @@
 	},
 	"type": "module",
 	"scripts": {
-		"test": "standard && node server.js",
-		"run": "node server.js"
+		"prepare": "standard",
+		"test": "standard && node .",
+		"run": "node ."
 	},
 	"keywords": [
 		"discord.js",
