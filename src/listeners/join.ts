@@ -21,7 +21,7 @@ const handle = async function (member : GuildMember) {
   const modlogs = await member.client.channels
     .fetch(channelId)
     .catch(console.error)
-  if (modlogs === undefined) {
+  if (modlogs === null) {
     return
   }
 

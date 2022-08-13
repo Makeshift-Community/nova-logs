@@ -60,7 +60,7 @@ async function announce (oldName : string | null, newName : string, user: User) 
   const modlogs = await user.client.channels
     .fetch(channelId)
     .catch(console.error)
-  if (modlogs === undefined) {
+  if (modlogs === null) {
     return
   }
 
@@ -69,7 +69,7 @@ async function announce (oldName : string | null, newName : string, user: User) 
     .addField('New alias', clean(newName), true)
     .addField('ID', user.id, true)
     .addField('Date', Formatters.time(new Date()), true)
-    
+
   if(oldName !== null) {
     embed.addField('Old alias', clean(oldName), true)
   }
