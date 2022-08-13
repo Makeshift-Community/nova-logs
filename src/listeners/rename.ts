@@ -1,4 +1,4 @@
-import { MessageEmbed, Formatters } from 'discord.js'
+import { MessageEmbed, Formatters, Client, GuildMember, PartialGuildMember, User, PartialUser } from 'discord.js'
 
 import {
   channel as channelId,
@@ -6,12 +6,12 @@ import {
 } from '../resources/makeshift.js'
 import clean from '../utils/removeFormatting.js'
 
-export default function (client) {
+export default function (client : Client) {
   client.on('guildMemberUpdate', handleMemberUpdate)
   client.on('userUpdate', handleUserUpdate)
 }
 
-const handleMemberUpdate = function (oldMember, newMember) {
+const handleMemberUpdate = function (oldMember : GuildMember | PartialGuildMember, newMember : GuildMember) {
   // Check if even happened on monitored guild
   if (newMember.guild.id !== guildId) {
     return
@@ -26,7 +26,7 @@ const handleMemberUpdate = function (oldMember, newMember) {
   announce(oldMember.displayName, newMember.displayName, newMember.user)
 }
 
-const handleUserUpdate = async function (oldUser, newUser) {
+const handleUserUpdate = async function (oldUser : User | PartialUser, newUser: User) {
   // Check if user changed user name
   if (oldUser.username === newUser.username) {
     return
@@ -51,7 +51,7 @@ const handleUserUpdate = async function (oldUser, newUser) {
   announce(oldUser.username, newUser.username, newUser)
 }
 
-async function announce (oldName, newName, user) {
+async function announce (oldName : string | null, newName : string, user: User) {
   console.log(
     `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`
   )
@@ -66,10 +66,13 @@ async function announce (oldName, newName, user) {
 
   const embed = new MessageEmbed()
     .setColor('BLUE')
-    .addField('Old alias', clean(oldName), true)
     .addField('New alias', clean(newName), true)
     .addField('ID', user.id, true)
     .addField('Date', Formatters.time(new Date()), true)
+    
+  if(oldName !== null) {
+    embed.addField('Old alias', clean(oldName), true)
+  }
 
   modlogs
     .send({
