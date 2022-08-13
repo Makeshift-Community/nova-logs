@@ -1,10 +1,12 @@
 import {
-  MessageEmbed,
-  Formatters,
   Client,
   GuildMember,
-  PartialGuildMember
+  PartialGuildMember,
+  Colors,
+  TextChannel
 } from 'discord.js'
+import { 
+  EmbedBuilder, time } from '@discordjs/builders'
 
 import {
   channel as channelId,
@@ -30,16 +32,20 @@ const handle = async function (
   // Attempt announcement
   const modlogs = await member.client.channels
     .fetch(channelId)
-    .catch(console.error)
-  if (modlogs === null) {
-    return
-  }
+    .catch((error) => {
+      console.error(error)
+      throw new Error('Could not fetch modlogs channel.') // TODO: Better error description.
+    })
+  if (modlogs === null) return
+  if(!(modlogs instanceof TextChannel)) return
 
-  const embed = new MessageEmbed()
-    .setColor('YELLOW')
-    .addField('Alias', clean(member.displayName), true)
-    .addField('ID', member.user.id, true)
-    .addField('Date', Formatters.time(new Date()), true)
+  const embed = new EmbedBuilder()
+    .setColor(Colors.Yellow)
+    .addFields(
+      {name: 'Alias', value: clean(member.displayName), inline: true},
+      {name: 'ID', value: member.user.id, inline: true},
+      {name: 'Date', value: time(new Date()), inline: true}
+    )
 
   modlogs
     .send({
