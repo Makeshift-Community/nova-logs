@@ -1,4 +1,10 @@
-import { MessageEmbed, Formatters, Client, GuildMember, PartialGuildMember, TextChannel } from 'discord.js'
+import {
+  MessageEmbed,
+  Formatters,
+  Client,
+  GuildMember,
+  PartialGuildMember
+} from 'discord.js'
 
 import {
   channel as channelId,
@@ -6,11 +12,13 @@ import {
 } from '../resources/makeshift.js'
 import clean from '../utils/removeFormatting.js'
 
-export default function (client : Client) {
+export default function (client: Client): void {
   client.on('guildMemberRemove', handle)
 }
 
-const handle = async function (member : GuildMember | PartialGuildMember) {
+const handle = async function (
+  member: GuildMember | PartialGuildMember
+): Promise<void> {
   // Check to see if member is present on monitored guild
   if (member.guild.id !== guildId) {
     return

@@ -6,11 +6,11 @@ import {
 } from '../resources/makeshift.js'
 import clean from '../utils/removeFormatting.js'
 
-export default function (client : Client) {
+export default function (client: Client): void {
   client.on('guildMemberAdd', handle)
 }
 
-const handle = async function (member : GuildMember) {
+const handle = async function (member: GuildMember): Promise<void> {
   // Check to see if member is present on monitored guild
   if (member.guild.id !== guildId) {
     return

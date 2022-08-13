@@ -1,4 +1,12 @@
-import { MessageEmbed, Formatters, Client, GuildMember, PartialGuildMember, User, PartialUser } from 'discord.js'
+import {
+  MessageEmbed,
+  Formatters,
+  Client,
+  GuildMember,
+  PartialGuildMember,
+  User,
+  PartialUser
+} from 'discord.js'
 
 import {
   channel as channelId,
@@ -6,12 +14,15 @@ import {
 } from '../resources/makeshift.js'
 import clean from '../utils/removeFormatting.js'
 
-export default function (client : Client) {
+export default function (client: Client): void {
   client.on('guildMemberUpdate', handleMemberUpdate)
   client.on('userUpdate', handleUserUpdate)
 }
 
-const handleMemberUpdate = function (oldMember : GuildMember | PartialGuildMember, newMember : GuildMember) {
+const handleMemberUpdate = function (
+  oldMember: GuildMember | PartialGuildMember,
+  newMember: GuildMember
+): void {
   // Check if even happened on monitored guild
   if (newMember.guild.id !== guildId) {
     return
@@ -23,10 +34,13 @@ const handleMemberUpdate = function (oldMember : GuildMember | PartialGuildMembe
   }
 
   // Member has changed nickname, announce
-  announce(oldMember.displayName, newMember.displayName, newMember.user)
+  void announce(oldMember.displayName, newMember.displayName, newMember.user)
 }
 
-const handleUserUpdate = async function (oldUser : User | PartialUser, newUser: User) {
+const handleUserUpdate = async function (
+  oldUser: User | PartialUser,
+  newUser: User
+): Promise<void> {
   // Check if user changed user name
   if (oldUser.username === newUser.username) {
     return
@@ -48,10 +62,14 @@ const handleUserUpdate = async function (oldUser : User | PartialUser, newUser: 
   }
 
   // Member has no nickname, announce username change
-  announce(oldUser.username, newUser.username, newUser)
+  void announce(oldUser.username, newUser.username, newUser)
 }
 
-async function announce (oldName : string | null, newName : string, user: User) {
+async function announce (
+  oldName: string | null,
+  newName: string,
+  user: User
+): Promise<void> {
   console.log(
     `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`
   )
@@ -70,7 +88,7 @@ async function announce (oldName : string | null, newName : string, user: User) 
     .addField('ID', user.id, true)
     .addField('Date', Formatters.time(new Date()), true)
 
-  if(oldName !== null) {
+  if (oldName !== null) {
     embed.addField('Old alias', clean(oldName), true)
   }
 

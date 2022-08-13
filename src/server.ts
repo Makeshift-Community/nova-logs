@@ -16,7 +16,7 @@ const makeshiftbot = new Client({
 registerListeners(makeshiftbot)
 
 // Start bot
-makeshiftbot
+void makeshiftbot
   .login(token)
   .catch((error) => {
     console.error(error)
