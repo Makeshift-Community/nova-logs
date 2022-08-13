@@ -5,8 +5,7 @@ import {
   Colors,
   TextChannel
 } from 'discord.js'
-import { 
-  EmbedBuilder, time } from '@discordjs/builders'
+import { EmbedBuilder, time } from '@discordjs/builders'
 
 import {
   channel as channelId,
@@ -37,14 +36,14 @@ const handle = async function (
       throw new Error('Could not fetch modlogs channel.') // TODO: Better error description.
     })
   if (modlogs === null) return
-  if(!(modlogs instanceof TextChannel)) return
+  if (!(modlogs instanceof TextChannel)) return
 
   const embed = new EmbedBuilder()
     .setColor(Colors.Yellow)
     .addFields(
-      {name: 'Alias', value: clean(member.displayName), inline: true},
-      {name: 'ID', value: member.user.id, inline: true},
-      {name: 'Date', value: time(new Date()), inline: true}
+      { name: 'Alias', value: clean(member.displayName), inline: true },
+      { name: 'ID', value: member.user.id, inline: true },
+      { name: 'Date', value: time(new Date()), inline: true }
     )
 
   modlogs
