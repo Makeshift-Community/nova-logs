@@ -1,11 +1,11 @@
-// Dependencies
+// External dependencies
 import { Client, Intents } from 'discord.js'
 
 // Custom dependencies
-import token from './src/resources/token.js' // I'm an idiot, thanks for the lesson
-import registerListeners from './src/listeners/index.js'
-import fetchMakeshiftMembers from './src/functions/fetchGuild.js'
-import notify from './src/functions/notifyOwner.js'
+import token from '../token.js' // I'm an idiot, thanks for the lesson
+import registerListeners from './listeners/index.js'
+import fetchMakeshiftMembers from './functions/fetchGuild.js'
+import notify from './functions/notifyOwner.js'
 
 const makeshiftbot = new Client({
   intents: [Intents.FLAGS.GUILD_MEMBERS],
