@@ -1,6 +1,9 @@
 import { MessageEmbed, Formatters } from 'discord.js'
 
-import { channel as channelId, guild as guildId } from '../resources/makeshift.js'
+import {
+  channel as channelId,
+  guild as guildId
+} from '../resources/makeshift.js'
 import clean from '../utils/removeFormatting.js'
 
 export default function (client) {
@@ -10,10 +13,14 @@ export default function (client) {
 
 const handleMemberUpdate = function (oldMember, newMember) {
   // Check if even happened on monitored guild
-  if (newMember.guild.id !== guildId) { return }
+  if (newMember.guild.id !== guildId) {
+    return
+  }
 
   // Check if member changed old displayname
-  if (oldMember.displayName === newMember.displayName) { return }
+  if (oldMember.displayName === newMember.displayName) {
+    return
+  }
 
   // Member has changed nickname, announce
   announce(oldMember.displayName, newMember.displayName, newMember.user)
@@ -21,30 +28,41 @@ const handleMemberUpdate = function (oldMember, newMember) {
 
 const handleUserUpdate = async function (oldUser, newUser) {
   // Check if user changed user name
-  if (oldUser.username === newUser.username) { return }
+  if (oldUser.username === newUser.username) {
+    return
+  }
 
   // Check if user is member on monitored guild
-  const guild = await newUser.client.guilds.fetch(guildId)
-    .catch(console.error)
-  if (guild === undefined) { return }
-  const member = await guild.members.fetch(newUser.id)
-    .catch(console.error)
-  if (member === undefined) { return }
+  const guild = await newUser.client.guilds.fetch(guildId).catch(console.error)
+  if (guild === undefined) {
+    return
+  }
+  const member = await guild.members.fetch(newUser.id).catch(console.error)
+  if (member === undefined) {
+    return
+  }
 
   // Check if member already has a nickname
-  if (member.nickname !== null) { return }
+  if (member.nickname !== null) {
+    return
+  }
 
   // Member has no nickname, announce username change
   announce(oldUser.username, newUser.username, newUser)
 }
 
 async function announce (oldName, newName, user) {
-  console.log(`guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`)
+  console.log(
+    `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`
+  )
 
   // Attempt announcement
-  const modlogs = await user.client.channels.fetch(channelId)
+  const modlogs = await user.client.channels
+    .fetch(channelId)
     .catch(console.error)
-  if (modlogs === undefined) { return }
+  if (modlogs === undefined) {
+    return
+  }
 
   const embed = new MessageEmbed()
     .setColor('BLUE')
@@ -53,9 +71,10 @@ async function announce (oldName, newName, user) {
     .addField('ID', user.id, true)
     .addField('Date', Formatters.time(new Date()), true)
 
-  modlogs.send({
-    content: `📝 ${user} changed their name`,
-    embeds: [embed]
-  })
+  modlogs
+    .send({
+      content: `📝 ${user} changed their name`,
+      embeds: [embed]
+    })
     .catch(console.error)
 }

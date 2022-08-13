@@ -1,8 +1,7 @@
 import { owner as ownerId } from '../resources/makeshift.js'
 
 export default async function (client) {
-  const nkn1396 = await client.users.fetch(ownerId)
-    .catch(console.error)
+  const nkn1396 = await client.users.fetch(ownerId).catch(console.error)
   if (nkn1396 === undefined) {
     console.error('Could not announce startup to owner.')
     return
