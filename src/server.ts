@@ -23,7 +23,7 @@ makeshiftbot
     process.exit(1)
   })
   .then(async () => {
-    console.log(`Logged in as ${makeshiftbot.user.tag}`)
+    console.log(`Logged in as ${makeshiftbot.user?.tag}`)
 
     await fetchMakeshiftMembers(makeshiftbot)
     await notify(makeshiftbot)
