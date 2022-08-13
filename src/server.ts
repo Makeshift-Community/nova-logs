@@ -21,11 +21,9 @@ makeshiftbot.login(token)
     console.error(error)
     process.exit(1)
   })
-  .then(() => {
+  .then(async () => {
     console.log(`Logged in as ${makeshiftbot.user.tag}`)
 
-    ;(async () => {
-      await fetchMakeshiftMembers(makeshiftbot)
-      await notify(makeshiftbot)
-    })()
+    await fetchMakeshiftMembers(makeshiftbot)
+    await notify(makeshiftbot)
   })
