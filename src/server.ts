@@ -1,5 +1,5 @@
 // External dependencies
-import { Client, Intents } from 'discord.js'
+import { Client, IntentsBitField, Partials } from 'discord.js'
 
 // Custom dependencies
 import token from '../token.js' // I'm an idiot, thanks for the lesson
@@ -8,8 +8,8 @@ import fetchMakeshiftMembers from './functions/fetchGuild.js'
 import notify from './functions/notifyOwner.js'
 
 const makeshiftbot = new Client({
-  intents: [Intents.FLAGS.GUILD_MEMBERS],
-  partials: ['GUILD_MEMBER']
+  intents: [IntentsBitField.Flags.GuildMembers],
+  partials: [Partials.GuildMember]
 })
 
 // Register listeners
