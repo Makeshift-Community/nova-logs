@@ -1,4 +1,5 @@
-import { MessageEmbed, Formatters, Client, GuildMember } from 'discord.js'
+import { Client, Colors, GuildMember, TextChannel } from 'discord.js'
+import { EmbedBuilder, time } from '@discordjs/builders'
 
 import {
   channel as channelId,
@@ -18,12 +19,15 @@ const handle = async function (member: GuildMember): Promise<void> {
   console.log(`guildMemberAdd: ${member.user.id} alias ${member.displayName}`)
 
   // Attempt announcement
-  const modlogs = await member.client.channels
-    .fetch(channelId)
-    .catch(console.error)
-  if (modlogs === null) {
+  let modlogs
+  try {
+    modlogs = await member.client.channels.fetch(channelId)
+  } catch (error) {
+    console.error('Could not fetch modlogs channel.')
     return
   }
+  if (modlogs === null) return
+  if (!(modlogs instanceof TextChannel)) return
 
   const embed = new EmbedBuilder()
     .setColor(Colors.Green)

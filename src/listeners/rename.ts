@@ -1,11 +1,12 @@
+import { EmbedBuilder, time } from '@discordjs/builders'
 import {
-  MessageEmbed,
-  Formatters,
   Client,
   GuildMember,
   PartialGuildMember,
   User,
-  PartialUser
+  PartialUser,
+  TextChannel,
+  Colors
 } from 'discord.js'
 
 import {
@@ -75,12 +76,15 @@ async function announce (
   )
 
   // Attempt announcement
-  const modlogs = await user.client.channels
-    .fetch(channelId)
-    .catch(console.error)
-  if (modlogs === null) {
+  let modlogs
+  try {
+    modlogs = await user.client.channels.fetch(channelId)
+  } catch (error) {
+    console.error('Could not fetch modlogs channel.')
     return
   }
+  if (modlogs === null) return
+  if (!(modlogs instanceof TextChannel)) return
 
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)

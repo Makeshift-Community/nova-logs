@@ -29,12 +29,13 @@ const handle = async function (
   )
 
   // Attempt announcement
-  const modlogs = await member.client.channels
-    .fetch(channelId)
-    .catch((error) => {
-      console.error(error)
-      throw new Error('Could not fetch modlogs channel.') // TODO: Better error description.
-    })
+  let modlogs
+  try {
+    modlogs = await member.client.channels.fetch(channelId)
+  } catch (error) {
+    console.error('Could not fetch modlogs channel.')
+    return
+  }
   if (modlogs === null) return
   if (!(modlogs instanceof TextChannel)) return
 
