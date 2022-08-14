@@ -25,11 +25,13 @@ const handle = async function (member: GuildMember): Promise<void> {
     return
   }
 
-  const embed = new MessageEmbed()
-    .setColor('GREEN')
-    .addField('Alias', clean(member.displayName), true)
-    .addField('ID', member.user.id, true)
-    .addField('Date', Formatters.time(new Date()), true)
+  const embed = new EmbedBuilder()
+    .setColor(Colors.Green)
+    .addFields(
+      { name: 'Alias', value: clean(member.displayName), inline: true },
+      { name: 'ID', value: member.user.id, inline: true },
+      { name: 'Date', value: time(new Date()), inline: true }
+    )
 
   modlogs
     .send({

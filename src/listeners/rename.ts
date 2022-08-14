@@ -82,14 +82,16 @@ async function announce (
     return
   }
 
-  const embed = new MessageEmbed()
-    .setColor('BLUE')
-    .addField('New alias', clean(newName), true)
-    .addField('ID', user.id, true)
-    .addField('Date', Formatters.time(new Date()), true)
+  const embed = new EmbedBuilder()
+    .setColor(Colors.Blue)
+    .addFields(
+      { name: 'New alias', value: clean(newName), inline: true },
+      { name: 'ID', value: user.id, inline: true },
+      { name: 'Date', value: time(new Date()), inline: true }
+    )
 
   if (oldName !== null) {
-    embed.addField('Old alias', clean(oldName), true)
+    embed.addFields({ name: 'Old alias', value: clean(oldName), inline: true })
   }
 
   modlogs
