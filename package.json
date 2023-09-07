@@ -10,7 +10,7 @@
 	"scripts": {
 		"prestart": "node ./dist/prestart.js",
 		"start": "node .",
-		"lint": "npx prettier --write ./src && npx ts-standard --fix ./src",
+		"lint": "npx prettier --write ./src && npx eslint ./src",
 		"test": "tsc && npm start"
 	},
 	"keywords": [
@@ -26,9 +26,12 @@
 		"discord.js": "^14.2.0"
 	},
 	"devDependencies": {
-		"eslint-config-prettier": "^8.5.0",
-		"prettier": "^2.7.1",
-		"ts-standard": "^11.0.0",
-		"typescript": "^4.7.4"
+		"@types/node": "18.17.1",
+		"@typescript-eslint/eslint-plugin": "^6.6.0",
+		"@typescript-eslint/parser": "^6.6.0",
+		"eslint": "^8.48.0",
+		"eslint-config-prettier": "^9.0.0",
+		"prettier": "^3.0.3",
+		"typescript": "^5.2.2"
 	}
 }
