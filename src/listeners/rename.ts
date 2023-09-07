@@ -1,4 +1,4 @@
-import { EmbedBuilder, time } from '@discordjs/builders'
+import { EmbedBuilder, time } from "@discordjs/builders";
 import {
   Client,
   GuildMember,
@@ -6,102 +6,102 @@ import {
   User,
   PartialUser,
   TextChannel,
-  Colors
-} from 'discord.js'
+  Colors,
+} from "discord.js";
 
 import {
   channel as channelId,
-  guild as guildId
-} from '../resources/makeshift.js'
-import clean from '../utils/removeFormatting.js'
+  guild as guildId,
+} from "../resources/makeshift.js";
+import clean from "../utils/removeFormatting.js";
 
 export default function (client: Client): void {
-  client.on('guildMemberUpdate', handleMemberUpdate)
-  client.on('userUpdate', handleUserUpdate)
+  client.on("guildMemberUpdate", handleMemberUpdate);
+  client.on("userUpdate", handleUserUpdate);
 }
 
 const handleMemberUpdate = function (
   oldMember: GuildMember | PartialGuildMember,
-  newMember: GuildMember
+  newMember: GuildMember,
 ): void {
   // Check if even happened on monitored guild
   if (newMember.guild.id !== guildId) {
-    return
+    return;
   }
 
   // Check if member changed old displayname
   if (oldMember.displayName === newMember.displayName) {
-    return
+    return;
   }
 
   // Member has changed nickname, announce
-  void announce(oldMember.displayName, newMember.displayName, newMember.user)
-}
+  void announce(oldMember.displayName, newMember.displayName, newMember.user);
+};
 
 const handleUserUpdate = async function (
   oldUser: User | PartialUser,
-  newUser: User
+  newUser: User,
 ): Promise<void> {
   // Check if user changed user name
   if (oldUser.username === newUser.username) {
-    return
+    return;
   }
 
   // Check if user is member on monitored guild
-  const guild = await newUser.client.guilds.fetch(guildId).catch(console.error)
+  const guild = await newUser.client.guilds.fetch(guildId).catch(console.error);
   if (guild === undefined) {
-    return
+    return;
   }
-  const member = await guild.members.fetch(newUser.id).catch(console.error)
+  const member = await guild.members.fetch(newUser.id).catch(console.error);
   if (member === undefined) {
-    return
+    return;
   }
 
   // Check if member already has a nickname
   if (member.nickname !== null) {
-    return
+    return;
   }
 
   // Member has no nickname, announce username change
-  void announce(oldUser.username, newUser.username, newUser)
-}
+  void announce(oldUser.username, newUser.username, newUser);
+};
 
-async function announce (
+async function announce(
   oldName: string | null,
   newName: string,
-  user: User
+  user: User,
 ): Promise<void> {
   console.log(
-    `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`
-  )
+    `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`,
+  );
 
   // Attempt announcement
-  let modlogs
+  let modlogs;
   try {
-    modlogs = await user.client.channels.fetch(channelId)
+    modlogs = await user.client.channels.fetch(channelId);
   } catch (error) {
-    console.error('Could not fetch modlogs channel.')
-    return
+    console.error("Could not fetch modlogs channel.");
+    return;
   }
-  if (modlogs === null) return
-  if (!(modlogs instanceof TextChannel)) return
+  if (modlogs === null) return;
+  if (!(modlogs instanceof TextChannel)) return;
 
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(
-      { name: 'New alias', value: clean(newName), inline: true },
-      { name: 'ID', value: user.id, inline: true },
-      { name: 'Date', value: time(new Date()), inline: true }
-    )
+      { name: "New alias", value: clean(newName), inline: true },
+      { name: "ID", value: user.id, inline: true },
+      { name: "Date", value: time(new Date()), inline: true },
+    );
 
   if (oldName !== null) {
-    embed.addFields({ name: 'Old alias', value: clean(oldName), inline: true })
+    embed.addFields({ name: "Old alias", value: clean(oldName), inline: true });
   }
 
   modlogs
     .send({
       content: `📝 ${user} changed their name`,
-      embeds: [embed]
+      embeds: [embed],
     })
-    .catch(console.error)
+    .catch(console.error);
 }
