@@ -10,8 +10,8 @@ import { EmbedBuilder, time } from "@discordjs/builders";
 import {
   channel as channelId,
   guild as guildId,
-} from "../resources/makeshift.js";
-import clean from "../utils/removeFormatting.js";
+} from "../../resources/makeshift.js";
+import clean from "../../utils/removeFormatting.js";
 
 export default function (client: Client): void {
   client.on("guildMemberRemove", handle);
