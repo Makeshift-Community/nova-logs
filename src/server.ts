@@ -1,30 +1,35 @@
 // External dependencies
-import { Client, IntentsBitField, Partials } from 'discord.js'
+import { Client, IntentsBitField, Partials } from "discord.js";
 
 // Custom dependencies
-import token from '../token.js' // I'm an idiot, thanks for the lesson
-import registerListeners from './listeners/index.js'
-import fetchMakeshiftMembers from './functions/fetchGuild.js'
-import notify from './functions/notifyOwner.js'
+import TOKEN from "../token.js"; // I'm an idiot, thanks for the lesson
+import { Error as ExitError } from "./utils/Errors.js";
+import registerListeners from "./listeners/index.js";
+import fetchMakeshiftMembers from "./functions/fetchGuild.js";
+import notifyOwner from "./functions/notifyOwner.js";
 
-const makeshiftbot = new Client({
+const bot = new Client({
   intents: [IntentsBitField.Flags.GuildMembers],
-  partials: [Partials.GuildMember]
-})
+  partials: [Partials.GuildMember],
+});
 
 // Register listeners
-registerListeners(makeshiftbot)
+registerListeners(bot);
 
 // Start bot
-void makeshiftbot
-  .login(token)
-  .catch((error) => {
-    console.error(error)
-    process.exit(1)
-  })
-  .then(async () => {
-    console.log(`Logged in as ${makeshiftbot.user?.tag}`)
+void bot
+  .login(TOKEN)
+  .catch(handleLoginError)
+  .then(() => fetchAndNotify(bot));
 
-    await fetchMakeshiftMembers(makeshiftbot)
-    await notify(makeshiftbot)
-  })
+function handleLoginError(error: Error) {
+  console.error(error);
+  process.exit(ExitError.LOGIN);
+}
+
+async function fetchAndNotify(bot: Client) {
+  console.log(`Logged in as ${bot.user?.tag}`);
+
+  await fetchMakeshiftMembers(bot);
+  await notifyOwner(bot);
+}
