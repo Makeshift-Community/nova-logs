@@ -3,7 +3,7 @@ import { Client, IntentsBitField, Partials } from "discord.js";
 
 // Custom dependencies
 import TOKEN from "../token.js"; // I'm an idiot, thanks for the lesson
-import { Error as ExitError } from "./utils/Errors.js";
+import { ExitErrors } from "./utils/ExitErrors.js";
 import registerListeners from "./listeners/index.js";
 import fetchMakeshiftMembers from "./functions/fetchGuild.js";
 import notifyOwner from "./functions/notifyOwner.js";
@@ -24,7 +24,7 @@ void bot
 
 function handleLoginError(error: Error) {
   console.error(error);
-  process.exit(ExitError.LOGIN);
+  process.exit(ExitErrors.LOGIN);
 }
 
 async function fetchAndNotify(bot: Client) {
