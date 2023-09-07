@@ -1,34 +1,24 @@
-import { Client, Colors, GuildMember, TextChannel } from "discord.js";
+import { Client, Colors, GuildMember } from "discord.js";
 import { EmbedBuilder, time } from "@discordjs/builders";
 
-import {
-  channel as channelId,
-  guild as guildId,
-} from "../resources/makeshift.js";
+import { Channels } from "../resources/makeshift.js";
 import clean from "../utils/removeFormatting.js";
+import announce from "../functions/announce.js";
+import isNotMakeshiftEvent from "../functions/isNotMakeshiftEvent.js";
 
 export default function (client: Client): void {
   client.on("guildMemberAdd", handle);
 }
 
 const handle = async function (member: GuildMember): Promise<void> {
-  // Check to see if member is present on monitored guild
-  if (member.guild.id !== guildId) {
-    return;
-  }
+  // Check if Makeshift member
+  if (isNotMakeshiftEvent(member.guild)) return;
+
   console.log(`guildMemberAdd: ${member.user.id} alias ${member.displayName}`);
 
-  // Attempt announcement
-  let modlogs;
-  try {
-    modlogs = await member.client.channels.fetch(channelId);
-  } catch (error) {
-    console.error("Could not fetch modlogs channel.");
-    return;
-  }
-  if (modlogs === null) return;
-  if (!(modlogs instanceof TextChannel)) return;
-
+  // Announce
+  const channel = Channels.LOGS_ACTIVITY;
+  const content = `📥 ${member} joined`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Green)
     .addFields(
@@ -37,10 +27,5 @@ const handle = async function (member: GuildMember): Promise<void> {
       { name: "Date", value: time(new Date()), inline: true },
     );
 
-  modlogs
-    .send({
-      content: `📥 ${member} joined`,
-      embeds: [embed],
-    })
-    .catch(console.error);
+  announce(member.client, channel, content, embed);
 };
