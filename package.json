@@ -3,7 +3,6 @@
 	"version": "2.0.0",
 	"description": "A bot for logging basic user activity on the Makeshift Discord guild.",
 	"main": "dist/server.js",
-	"types": "dist/server.d.ts",
 	"engines": {
 		"node": ">=16.11.0 <=20"
 	},
@@ -12,7 +11,8 @@
 		"prestart": "node ./dist/prestart.js",
 		"start": "node dist/server.js",
 		"lint": "npx prettier --write ./src && npx eslint ./src",
-		"test": "tsc && npm start"
+		"test": "npm run build && npm start",
+		"build": "tsc"
 	},
 	"keywords": [
 		"discord",
