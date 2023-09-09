@@ -1,1 +1,1 @@
-console.log('TODO: Prestart script')
+console.log("TODO: Prestart script");
