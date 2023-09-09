@@ -1,36 +1,36 @@
 {
-	"name": "nova-logs",
-	"version": "2.0.0",
-	"description": "A bot for logging basic user activity on the Makeshift Discord guild.",
-	"main": "dist/server.js",
-	"engines": {
-		"node": ">=16.11.0 <=20"
-	},
-	"type": "module",
-	"scripts": {
-		"prestart": "node ./dist/prestart.js",
-		"start": "node dist/server.js",
-		"lint": "npx prettier --write ./src && npx eslint ./src",
-		"test": "npm run build && npm start",
-		"build": "tsc"
-	},
-	"keywords": [
-		"discord",
-		"bot"
-	],
-	"author": "NKN1396",
-	"license": "MIT",
-	"dependencies": {
-		"@discordjs/builders": "^1.1.0",
-		"discord.js": "^14.13.0"
-	},
-	"devDependencies": {
-		"@types/node": "18.17.1",
-		"@typescript-eslint/eslint-plugin": "^6.6.0",
-		"@typescript-eslint/parser": "^6.6.0",
-		"eslint": "^8.48.0",
-		"eslint-config-prettier": "^9.0.0",
-		"prettier": "^3.0.3",
-		"typescript": "^5.2.2"
-	}
+  "name": "nova-logs",
+  "version": "2.0.0",
+  "description": "A bot for logging basic user activity on the Makeshift Discord guild.",
+  "main": "dist/server.js",
+  "engines": {
+    "node": ">=16.11.0 <=20"
+  },
+  "type": "module",
+  "scripts": {
+    "prestart": "node ./dist/prestart.js",
+    "start": "node dist/server.js",
+    "lint": "npx prettier --write . && npx eslint .",
+    "test": "npm run build && npm start",
+    "build": "tsc"
+  },
+  "keywords": [
+    "discord",
+    "bot"
+  ],
+  "author": "NKN1396",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/builders": "^1.1.0",
+    "discord.js": "^14.13.0"
+  },
+  "devDependencies": {
+    "@types/node": "18.17.1",
+    "@typescript-eslint/eslint-plugin": "^6.6.0",
+    "@typescript-eslint/parser": "^6.6.0",
+    "eslint": "^8.48.0",
+    "eslint-config-prettier": "^9.0.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  }
 }

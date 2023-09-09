@@ -1,2 +1,2 @@
-declare const TOKEN: string
-export default TOKEN
+declare const TOKEN: string;
+export default TOKEN;

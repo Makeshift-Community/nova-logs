@@ -9,6 +9,6 @@
     "strict": true,
 
     "outDir": "./dist/",
-    "target": "ES2021",
+    "target": "ES2021"
   }
 }
