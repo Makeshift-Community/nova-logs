@@ -4,5 +4,5 @@ export * from "./development.js";
 //*/
 
 //*
-export * from "./makeshift.js"
+export * from "./makeshift.js";
 //*/
