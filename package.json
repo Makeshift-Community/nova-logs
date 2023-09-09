@@ -8,7 +8,7 @@
   },
   "type": "module",
   "scripts": {
-    "prestart": "node ./dist/prestart.js",
+    "prestart": "node dist/prestart.js",
     "start": "node dist/server.js",
     "lint": "npx prettier --write . && npx eslint .",
     "test": "npm run build && npm start",
