@@ -5,7 +5,6 @@ import {
   PartialGuildMember,
   User,
   PartialUser,
-  TextChannel,
   Colors,
 } from "discord.js";
 
@@ -14,6 +13,9 @@ import {
   guild as guildId,
 } from "../../resources/makeshift.js";
 import clean from "../../utils/removeFormatting.js";
+import { Channels } from "../../resources/configuration.js";
+import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
+import announce from "../../functions/announce.js";
 
 export default function (client: Client): void {
   client.on("guildMemberUpdate", handleMemberUpdate);
@@ -24,49 +26,44 @@ const handleMemberUpdate = function (
   oldMember: GuildMember | PartialGuildMember,
   newMember: GuildMember,
 ): void {
-  // Check if even happened on monitored guild
-  if (newMember.guild.id !== guildId) {
-    return;
-  }
+  // Check if Makeshift member
+  if (isNotMakeshiftEvent(newMember.guild)) return;
 
   // Check if member changed old displayname
-  if (oldMember.displayName === newMember.displayName) {
-    return;
-  }
+  if (oldMember.displayName === newMember.displayName) return;
 
   // Member has changed nickname, announce
-  void announce(oldMember.displayName, newMember.displayName, newMember.user);
+  void announceMemberDisplayNameChange(
+    oldMember.displayName,
+    newMember.displayName,
+    newMember.user,
+  );
 };
 
 const handleUserUpdate = async function (
   oldUser: User | PartialUser,
   newUser: User,
 ): Promise<void> {
-  // Check if user changed user name
-  if (oldUser.username === newUser.username) {
-    return;
-  }
+  // Check if user changed displayName
+  if (oldUser.displayName === newUser.displayName) return;
 
-  // Check if user is member on monitored guild
+  // Check if user is Makeshift member
   const guild = await newUser.client.guilds.fetch(guildId).catch(console.error);
-  if (guild === undefined) {
-    return;
-  }
+  if (guild === undefined) return;
   const member = await guild.members.fetch(newUser.id).catch(console.error);
-  if (member === undefined) {
-    return;
-  }
+  if (member === undefined) return;
 
   // Check if member already has a nickname
-  if (member.nickname !== null) {
-    return;
-  }
+  if (member.nickname !== null) return;
 
-  // Member has no nickname, announce username change
-  void announce(oldUser.username, newUser.username, newUser);
+  void announceMemberDisplayNameChange(
+    oldUser.username,
+    newUser.username,
+    newUser,
+  );
 };
 
-async function announce(
+async function announceMemberDisplayNameChange(
   oldName: string | null,
   newName: string,
   user: User,
@@ -76,16 +73,9 @@ async function announce(
   );
 
   // Attempt announcement
-  let modlogs;
-  try {
-    modlogs = await user.client.channels.fetch(channelId);
-  } catch (error) {
-    console.error("Could not fetch modlogs channel.");
-    return;
-  }
-  if (modlogs === null) return;
-  if (!(modlogs instanceof TextChannel)) return;
 
+  const channel = Channels.LOGS_ACTIVITY;
+  const content = `📝 ${user} changed their name`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(
@@ -98,10 +88,5 @@ async function announce(
     embed.addFields({ name: "Old alias", value: clean(oldName), inline: true });
   }
 
-  modlogs
-    .send({
-      content: `📝 ${user} changed their name`,
-      embeds: [embed],
-    })
-    .catch(console.error);
+  announce(user.client, channel, content, embed);
 }
