@@ -8,7 +8,6 @@
   },
   "type": "module",
   "scripts": {
-    "prestart": "node dist/prestart.js",
     "start": "node .",
     "lint": "npx prettier --write . && npx eslint .",
     "lint:check": "npx prettier --check . && npx eslint .",
