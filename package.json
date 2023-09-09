@@ -9,8 +9,9 @@
   "type": "module",
   "scripts": {
     "prestart": "node dist/prestart.js",
-    "start": "node dist/server.js",
+    "start": "node .",
     "lint": "npx prettier --write . && npx eslint .",
+    "lint:check": "npx prettier --check . && npx eslint .",
     "test": "npx --package=typescript tsc && npm start",
     "build": "tsc"
   },
