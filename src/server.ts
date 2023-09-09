@@ -8,6 +8,10 @@ import registerListeners from "./events/index.js";
 import fetchMakeshiftMembers from "./functions/fetchGuild.js";
 import notifyOwner from "./functions/notifyOwner.js";
 
+if(process.env.NODE_ENV !== "production") {
+  console.log("Running in development mode");
+}
+
 const bot = new Client({
   intents: [IntentsBitField.Flags.GuildMembers],
   partials: [Partials.GuildMember],
