@@ -1,6 +1,6 @@
 //*
-console.log("Running in development mode")
-export * from "./development.js"
+console.log("Running in development mode");
+export * from "./development.js";
 //*/
 
 /*

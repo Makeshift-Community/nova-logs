@@ -8,7 +8,7 @@ import registerListeners from "./events/index.js";
 import fetchMakeshiftMembers from "./functions/fetchGuild.js";
 import notifyOwner from "./functions/notifyOwner.js";
 
-if(process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
   console.log("Running in development mode");
 }
 
