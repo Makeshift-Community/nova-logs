@@ -11,7 +11,7 @@
     "prestart": "node dist/prestart.js",
     "start": "node dist/server.js",
     "lint": "npx prettier --write . && npx eslint .",
-    "test": "npm run build && npm start",
+    "test": "npx --package=typescript tsc && npm start",
     "build": "tsc"
   },
   "keywords": [
