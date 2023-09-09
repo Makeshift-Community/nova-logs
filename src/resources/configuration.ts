@@ -6,7 +6,7 @@ export * from "./development.js";
 //*/
 
 //*
-if(process.env.NODE_ENV !== "production") {
+if (process.env.NODE_ENV !== "production") {
   process.exit(ExitErrors.WRONG_ENVIRONMENT);
 }
 export * from "./makeshift.js";
