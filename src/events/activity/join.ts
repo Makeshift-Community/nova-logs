@@ -1,10 +1,10 @@
 import { Client, Colors, GuildMember } from "discord.js";
 import { EmbedBuilder, time } from "@discordjs/builders";
 
-import { Channels } from "../../resources/makeshift.js";
+import { Channels } from "../../resources/configuration.js";
 import clean from "../../utils/removeFormatting.js";
-import announce from "../../functions/announce.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
+import announce from "../../functions/announce.js";
 
 export default function (client: Client): void {
   client.on("guildMemberAdd", handle);

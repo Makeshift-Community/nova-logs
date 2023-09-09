@@ -1,10 +1,7 @@
 import { Client, GuildMember, PartialGuildMember, Colors } from "discord.js";
 import { EmbedBuilder, time } from "@discordjs/builders";
 
-import {
-  channel as channelId,
-  guild as guildId,
-} from "../../resources/makeshift.js";
+import { Channels } from "../../resources/configuration.js";
 import clean from "../../utils/removeFormatting.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";

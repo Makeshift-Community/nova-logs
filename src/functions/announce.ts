@@ -1,6 +1,6 @@
 import { EmbedBuilder } from "@discordjs/builders";
 import { Client, TextChannel } from "discord.js";
-import { Channels } from "../resources/makeshift.js";
+import { Channels } from "../resources/configuration.js";
 
 export default async function (
   client: Client,

@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { guild as guildId } from "../resources/makeshift.js";
+import { guild as guildId } from "../resources/configuration.js";
 
 export default async function (client: Client): Promise<unknown> {
   const makeshift = await client.guilds.fetch(guildId).catch(console.error);

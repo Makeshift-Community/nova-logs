@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { owner as ownerId } from "../resources/makeshift.js";
+import { owner as ownerId } from "../resources/configuration.js";
 
 export default async function (client: Client): Promise<unknown> {
   const nkn1396 = await client.users.fetch(ownerId).catch(console.error);

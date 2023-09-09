@@ -8,10 +8,7 @@ import {
   Colors,
 } from "discord.js";
 
-import {
-  channel as channelId,
-  guild as guildId,
-} from "../../resources/makeshift.js";
+import { guild as guildId } from "../../resources/configuration.js";
 import clean from "../../utils/removeFormatting.js";
 import { Channels } from "../../resources/configuration.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
