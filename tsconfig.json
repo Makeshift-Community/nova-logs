@@ -3,12 +3,13 @@
     "moduleResolution": "Node16",
     "esModuleInterop": true,
     "module": "Node16",
-    "rootDir": "./src/",
+    "rootDir": "src/",
+    "skipLibCheck": true,
 
     "forceConsistentCasingInFileNames": true,
     "strict": true,
 
-    "outDir": "./dist/",
+    "outDir": "dist/",
     "target": "ES2021"
   }
 }
