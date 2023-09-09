@@ -1,10 +1,4 @@
-import {
-  Client,
-  GuildMember,
-  PartialGuildMember,
-  Colors,
-  TextChannel,
-} from "discord.js";
+import { Client, GuildMember, PartialGuildMember, Colors } from "discord.js";
 import { EmbedBuilder, time } from "@discordjs/builders";
 
 import {
@@ -12,6 +6,8 @@ import {
   guild as guildId,
 } from "../../resources/makeshift.js";
 import clean from "../../utils/removeFormatting.js";
+import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
+import announce from "../../functions/announce.js";
 
 export default function (client: Client): void {
   client.on("guildMemberRemove", handle);
@@ -20,25 +16,15 @@ export default function (client: Client): void {
 const handle = async function (
   member: GuildMember | PartialGuildMember,
 ): Promise<void> {
-  // Check to see if member is present on monitored guild
-  if (member.guild.id !== guildId) {
-    return;
-  }
+  // Check if Makeshift member
+  if (isNotMakeshiftEvent(member.guild)) return;
   console.log(
     `guildMemberRemove: ${member.user.id} alias ${member.displayName}`,
   );
 
-  // Attempt announcement
-  let modlogs;
-  try {
-    modlogs = await member.client.channels.fetch(channelId);
-  } catch (error) {
-    console.error("Could not fetch modlogs channel.");
-    return;
-  }
-  if (modlogs === null) return;
-  if (!(modlogs instanceof TextChannel)) return;
-
+  // Announce
+  const channel = Channels.LOGS_ACTIVITY;
+  const content = `📤 ${member} left`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Yellow)
     .addFields(
@@ -47,10 +33,5 @@ const handle = async function (
       { name: "Date", value: time(new Date()), inline: true },
     );
 
-  modlogs
-    .send({
-      content: `📤 ${member} left`,
-      embeds: [embed],
-    })
-    .catch(console.error);
+  announce(member.client, channel, content, embed);
 };
