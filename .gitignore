@@ -1,5 +1,5 @@
 # Secret stuff
-token.js
+/token.js
 
 # Logs
 logs
@@ -92,7 +92,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+# dist
 
 # Gatsby files
 .cache/
