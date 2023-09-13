@@ -10,9 +10,7 @@ export default function (client: Client): void {
   client.on("guildMemberRemove", handle);
 }
 
-const handle = async function (
-  member: GuildMember | PartialGuildMember,
-): Promise<void> {
+const handle = function (member: GuildMember | PartialGuildMember) {
   // Check if Makeshift member
   if (isNotMakeshiftEvent(member.guild)) return;
   console.log(
@@ -21,7 +19,7 @@ const handle = async function (
 
   // Announce
   const channel = Channels.LOGS_ACTIVITY;
-  const content = `📤 ${member} left`;
+  const content = `📤 ${member.toString()} left`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Yellow)
     .addFields(
@@ -30,5 +28,5 @@ const handle = async function (
       { name: "Date", value: time(new Date()), inline: true },
     );
 
-  announce(member.client, channel, content, embed);
+  announce(member.client, channel, content, embed).catch(() => {});
 };

@@ -30,7 +30,7 @@ const handleMemberUpdate = function (
   if (oldMember.displayName === newMember.displayName) return;
 
   // Member has changed nickname, announce
-  void announceMemberDisplayNameChange(
+  announceMemberDisplayNameChange(
     oldMember.displayName,
     newMember.displayName,
     newMember.user,
@@ -53,18 +53,14 @@ const handleUserUpdate = async function (
   // Check if member already has a nickname
   if (member.nickname !== null) return;
 
-  void announceMemberDisplayNameChange(
-    oldUser.username,
-    newUser.username,
-    newUser,
-  );
+  announceMemberDisplayNameChange(oldUser.username, newUser.username, newUser);
 };
 
-async function announceMemberDisplayNameChange(
+function announceMemberDisplayNameChange(
   oldName: string | null,
   newName: string,
   user: User,
-): Promise<void> {
+) {
   console.log(
     `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`,
   );
@@ -72,7 +68,7 @@ async function announceMemberDisplayNameChange(
   // Attempt announcement
 
   const channel = Channels.LOGS_ACTIVITY;
-  const content = `📝 ${user} changed their name`;
+  const content = `📝 ${user.toString()} changed their name`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(
@@ -85,5 +81,5 @@ async function announceMemberDisplayNameChange(
     embed.addFields({ name: "Old alias", value: clean(oldName), inline: true });
   }
 
-  announce(user.client, channel, content, embed);
+  announce(user.client, channel, content, embed).catch(() => {});
 }

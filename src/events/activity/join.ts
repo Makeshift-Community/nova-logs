@@ -10,7 +10,7 @@ export default function (client: Client): void {
   client.on("guildMemberAdd", handle);
 }
 
-const handle = async function (member: GuildMember): Promise<void> {
+const handle = function (member: GuildMember) {
   // Check if Makeshift member
   if (isNotMakeshiftEvent(member.guild)) return;
 
@@ -18,7 +18,7 @@ const handle = async function (member: GuildMember): Promise<void> {
 
   // Announce
   const channel = Channels.LOGS_ACTIVITY;
-  const content = `📥 ${member} joined`;
+  const content = `📥 ${member.toString()} joined`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Green)
     .addFields(
@@ -27,5 +27,5 @@ const handle = async function (member: GuildMember): Promise<void> {
       { name: "Date", value: time(new Date()), inline: true },
     );
 
-  announce(member.client, channel, content, embed);
+  announce(member.client, channel, content, embed).catch(() => {});
 };
