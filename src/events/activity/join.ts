@@ -2,7 +2,7 @@ import { Client, Colors, GuildMember } from "discord.js";
 import { EmbedBuilder, time } from "@discordjs/builders";
 
 import { Channels } from "../../resources/configuration.js";
-import clean from "../../utils/removeFormatting.js";
+import { escapeMarkdown } from "discord.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
 
@@ -22,7 +22,11 @@ const handle = function (member: GuildMember) {
   const embed = new EmbedBuilder()
     .setColor(Colors.Green)
     .addFields(
-      { name: "Alias", value: clean(member.displayName), inline: true },
+      {
+        name: "Alias",
+        value: escapeMarkdown(member.displayName),
+        inline: true,
+      },
       { name: "ID", value: member.user.id, inline: true },
       { name: "Date", value: time(new Date()), inline: true },
     );

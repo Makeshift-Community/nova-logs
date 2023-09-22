@@ -9,7 +9,7 @@ import {
 } from "discord.js";
 
 import { guild as guildId } from "../../resources/configuration.js";
-import clean from "../../utils/removeFormatting.js";
+import { escapeMarkdown } from "discord.js";
 import { Channels } from "../../resources/configuration.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
@@ -72,13 +72,17 @@ function announceMemberDisplayNameChange(
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(
-      { name: "New alias", value: clean(newName), inline: true },
+      { name: "New alias", value: escapeMarkdown(newName), inline: true },
       { name: "ID", value: user.id, inline: true },
       { name: "Date", value: time(new Date()), inline: true },
     );
 
   if (oldName !== null) {
-    embed.addFields({ name: "Old alias", value: clean(oldName), inline: true });
+    embed.addFields({
+      name: "Old alias",
+      value: escapeMarkdown(oldName),
+      inline: true,
+    });
   }
 
   announce(user.client, channel, content, embed).catch(() => {});
