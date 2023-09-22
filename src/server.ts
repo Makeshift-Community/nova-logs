@@ -8,12 +8,10 @@ import registerListeners from "./events/index.js";
 import fetchMakeshiftMembers from "./functions/fetchGuild.js";
 import notifyOwner from "./functions/notifyOwner.js";
 
-
 // Display warning if we're in development mode
 if (process.env.NODE_ENV !== "production") {
   console.log("Running in development mode");
 }
-
 
 // Start bot
 const bot = new Client({
@@ -26,11 +24,8 @@ function handleLoginError(error: Error) {
   process.exit(ExitErrors.LOGIN);
 }
 
-await bot
-  .login(TOKEN)
-  .catch(handleLoginError);
+await bot.login(TOKEN).catch(handleLoginError);
 console.log(`Logged in as ${bot.user?.tag}`);
-
 
 // Fetch members, register event listeners, and notify owner
 function handleMemberFetchError(error: Error) {
