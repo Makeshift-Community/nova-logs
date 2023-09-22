@@ -85,5 +85,7 @@ function announceMemberDisplayNameChange(
     });
   }
 
-  announce(user.client, channel, content, embed).catch(() => {});
+  announce(user.client, channel, content, embed).catch(() => {
+    console.error("Failed to announce member rename");
+  });
 }

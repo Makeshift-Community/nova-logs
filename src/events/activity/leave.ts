@@ -32,5 +32,7 @@ const handle = function (member: GuildMember | PartialGuildMember) {
       { name: "Date", value: time(new Date()), inline: true },
     );
 
-  announce(member.client, channel, content, embed).catch(() => {});
+  announce(member.client, channel, content, embed).catch(() => {
+    console.error("Failed to announce member leave");
+  });
 };
