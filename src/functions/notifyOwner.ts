@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import { owner as ownerId } from "../resources/configuration.js";
+import { OWNER as ownerId } from "../resources/configuration.js";
 
 export default async function (client: Client): Promise<void> {
   const nkn1396 = await client.users.fetch(ownerId).catch(() => {

@@ -9,7 +9,7 @@ import {
   time,
 } from "discord.js";
 
-import { guild as guildId } from "../../resources/configuration.js";
+import { GUILD as guildId } from "../../resources/configuration.js";
 import { escapeMarkdown } from "discord.js";
 import { Channels } from "../../resources/configuration.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
