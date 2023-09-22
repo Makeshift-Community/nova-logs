@@ -1,4 +1,3 @@
-import { EmbedBuilder, time } from "@discordjs/builders";
 import {
   Client,
   GuildMember,
@@ -6,6 +5,8 @@ import {
   User,
   PartialUser,
   Colors,
+  EmbedBuilder,
+  time,
 } from "discord.js";
 
 import { guild as guildId } from "../../resources/configuration.js";

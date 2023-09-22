@@ -1,5 +1,11 @@
-import { Client, GuildMember, PartialGuildMember, Colors } from "discord.js";
-import { EmbedBuilder, time } from "@discordjs/builders";
+import {
+  Client,
+  GuildMember,
+  PartialGuildMember,
+  Colors,
+  EmbedBuilder,
+  time,
+} from "discord.js";
 
 import { Channels } from "../../resources/configuration.js";
 import { escapeMarkdown } from "discord.js";
