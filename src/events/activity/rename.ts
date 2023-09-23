@@ -10,7 +10,7 @@ import {
 } from "discord.js";
 
 import { GUILD as guildId } from "../../resources/configuration.js";
-import { escapeMarkdown } from "discord.js";
+import escapeMarkdown from "../../utils/escapeMarkdown.js";
 import { Channels } from "../../resources/configuration.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";

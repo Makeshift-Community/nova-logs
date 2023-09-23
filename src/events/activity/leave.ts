@@ -8,7 +8,7 @@ import {
 } from "discord.js";
 
 import { Channels } from "../../resources/configuration.js";
-import { escapeMarkdown } from "discord.js";
+import escapeMarkdown from "../../utils/escapeMarkdown.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
 
