@@ -25,6 +25,8 @@ const handle = function (member: GuildMember | PartialGuildMember) {
 
   // Announce
   const channel = Channels.LOGS_ACTIVITY;
+  // TODO: Remove once discord.js 14.14.0 is released
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
   const content = `📤 ${member.toString()} left`;
   const embed = new EmbedBuilder().setColor(Colors.Yellow).addFields(
     {
