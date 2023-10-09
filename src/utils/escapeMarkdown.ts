@@ -1,5 +1,9 @@
 export default function (text: string): string {
-  const discordMarkdownRegex = /[\\*_~|`<>#\-[.]/g;
+  const discordBackslashRegex = /\\/g;
+  text = text.replaceAll(discordBackslashRegex, `\\\\`);
 
-  return text.replaceAll(discordMarkdownRegex, `\\$&`);
+  const discordMarkdownRegex = /[*_~|`#\-[.<>:/]/g;
+  text = text.replaceAll(discordMarkdownRegex, `\\$&`);
+
+  return text;
 }
