@@ -1,4 +1,3 @@
-import { EmbedBuilder, time } from "@discordjs/builders";
 import {
   Client,
   GuildMember,
@@ -6,10 +5,12 @@ import {
   User,
   PartialUser,
   Colors,
+  EmbedBuilder,
+  time,
 } from "discord.js";
 
-import { guild as guildId } from "../../resources/configuration.js";
-import clean from "../../utils/removeFormatting.js";
+import { GUILD as guildId } from "../../resources/configuration.js";
+import escapeMarkdown from "../../utils/escapeMarkdown.js";
 import { Channels } from "../../resources/configuration.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
@@ -30,7 +31,7 @@ const handleMemberUpdate = function (
   if (oldMember.displayName === newMember.displayName) return;
 
   // Member has changed nickname, announce
-  void announceMemberDisplayNameChange(
+  announceMemberDisplayNameChange(
     oldMember.displayName,
     newMember.displayName,
     newMember.user,
@@ -53,18 +54,14 @@ const handleUserUpdate = async function (
   // Check if member already has a nickname
   if (member.nickname !== null) return;
 
-  void announceMemberDisplayNameChange(
-    oldUser.username,
-    newUser.username,
-    newUser,
-  );
+  announceMemberDisplayNameChange(oldUser.username, newUser.username, newUser);
 };
 
-async function announceMemberDisplayNameChange(
+function announceMemberDisplayNameChange(
   oldName: string | null,
   newName: string,
   user: User,
-): Promise<void> {
+) {
   console.log(
     `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`,
   );
@@ -72,18 +69,24 @@ async function announceMemberDisplayNameChange(
   // Attempt announcement
 
   const channel = Channels.LOGS_ACTIVITY;
-  const content = `📝 ${user} changed their name`;
+  const content = `📝 ${user.toString()} changed their name`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(
-      { name: "New alias", value: clean(newName), inline: true },
+      { name: "New alias", value: escapeMarkdown(newName), inline: true },
       { name: "ID", value: user.id, inline: true },
       { name: "Date", value: time(new Date()), inline: true },
     );
 
   if (oldName !== null) {
-    embed.addFields({ name: "Old alias", value: clean(oldName), inline: true });
+    embed.addFields({
+      name: "Old alias",
+      value: escapeMarkdown(oldName),
+      inline: true,
+    });
   }
 
-  announce(user.client, channel, content, embed);
+  announce(user.client, channel, content, embed).catch(() => {
+    console.error("Failed to announce member rename");
+  });
 }

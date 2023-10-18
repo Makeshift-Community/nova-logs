@@ -1,6 +1,6 @@
 {
   "name": "nova-logs",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "description": "A bot for logging basic user activity on the Makeshift Discord guild.",
   "main": "dist/server.js",
   "engines": {
@@ -9,10 +9,10 @@
   "type": "module",
   "scripts": {
     "start": "node .",
-    "lint": "npx prettier --write . && npx eslint .",
-    "lint:check": "npx prettier --check . && npx eslint .",
+    "lint": "npx prettier --write . && npx eslint . && npx --package=typescript tsc --noEmit",
+    "lint:check": "npx prettier --check . && npx eslint . && npx --package=typescript tsc --noEmit",
     "test": "npx --package=typescript tsc && npm start",
-    "build": "npx --package=typescript tsc --build --clean && npx --package=typescript tsc"
+    "build": "npm run lint && npx --package=typescript tsc --build --clean && npx --package=typescript tsc"
   },
   "keywords": [
     "discord",

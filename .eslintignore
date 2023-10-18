@@ -5,3 +5,5 @@
 *.markdown
 
 /package-lock.json
+
+.eslintrc.cjs

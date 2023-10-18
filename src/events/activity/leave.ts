@@ -1,8 +1,14 @@
-import { Client, GuildMember, PartialGuildMember, Colors } from "discord.js";
-import { EmbedBuilder, time } from "@discordjs/builders";
+import {
+  Client,
+  GuildMember,
+  PartialGuildMember,
+  Colors,
+  EmbedBuilder,
+  time,
+} from "discord.js";
 
 import { Channels } from "../../resources/configuration.js";
-import clean from "../../utils/removeFormatting.js";
+import escapeMarkdown from "../../utils/escapeMarkdown.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
 
@@ -10,9 +16,7 @@ export default function (client: Client): void {
   client.on("guildMemberRemove", handle);
 }
 
-const handle = async function (
-  member: GuildMember | PartialGuildMember,
-): Promise<void> {
+const handle = function (member: GuildMember | PartialGuildMember) {
   // Check if Makeshift member
   if (isNotMakeshiftEvent(member.guild)) return;
   console.log(
@@ -21,14 +25,20 @@ const handle = async function (
 
   // Announce
   const channel = Channels.LOGS_ACTIVITY;
-  const content = `📤 ${member} left`;
-  const embed = new EmbedBuilder()
-    .setColor(Colors.Yellow)
-    .addFields(
-      { name: "Alias", value: clean(member.displayName), inline: true },
-      { name: "ID", value: member.user.id, inline: true },
-      { name: "Date", value: time(new Date()), inline: true },
-    );
+  // TODO: Remove once discord.js 14.14.0 is released
+  // eslint-disable-next-line @typescript-eslint/no-base-to-string
+  const content = `📤 ${member.toString()} left`;
+  const embed = new EmbedBuilder().setColor(Colors.Yellow).addFields(
+    {
+      name: "Alias",
+      value: escapeMarkdown(member.displayName),
+      inline: true,
+    },
+    { name: "ID", value: member.user.id, inline: true },
+    { name: "Date", value: time(new Date()), inline: true },
+  );
 
-  announce(member.client, channel, content, embed);
+  announce(member.client, channel, content, embed).catch(() => {
+    console.error("Failed to announce member leave");
+  });
 };
