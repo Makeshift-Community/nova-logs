@@ -1,3 +1,2 @@
-export const guild = "272036959348588555";
-export const channel = "303662183558938625";
-export const owner = "153595272465743872";
+export const GUILD = "272036959348588555";
+export const OWNER = "153595272465743872";
