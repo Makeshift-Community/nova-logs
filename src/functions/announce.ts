@@ -1,9 +1,12 @@
 import { Client, TextChannel, EmbedBuilder } from "discord.js";
-import { Channels } from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.js";
+
+type LogChannelsType = typeof CONFIG.LOG_CHANNELS;
+type ChannelTypes = LogChannelsType[keyof LogChannelsType];
 
 export default async function (
   client: Client,
-  channel: Channels,
+  channel: ChannelTypes,
   content: string,
   embed: EmbedBuilder,
 ) {

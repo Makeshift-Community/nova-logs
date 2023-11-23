@@ -7,7 +7,7 @@ import {
   time,
 } from "discord.js";
 
-import { Channels } from "../../resources/configuration.js";
+import CONFIG from "../../resources/configuration.js";
 import escapeMarkdown from "../../utils/escapeMarkdown.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
@@ -24,7 +24,7 @@ const handle = function (member: GuildMember | PartialGuildMember) {
   );
 
   // Announce
-  const channel = Channels.LOGS_ACTIVITY;
+  const CHANNEL_ID = CONFIG.LOG_CHANNELS.ACTIVITY;
   const content = `📤 ${member.toString()} left`;
   const embed = new EmbedBuilder().setColor(Colors.Yellow).addFields(
     {
@@ -36,7 +36,7 @@ const handle = function (member: GuildMember | PartialGuildMember) {
     { name: "Date", value: time(new Date()), inline: true },
   );
 
-  announce(member.client, channel, content, embed).catch(() => {
+  announce(member.client, CHANNEL_ID, content, embed).catch(() => {
     console.error("Failed to announce member leave");
   });
 };

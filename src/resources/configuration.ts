@@ -1,16 +1,20 @@
-import { ExitErrors } from "../utils/ExitErrors.js";
+export interface Configuration {
+  GUILD: string;
 
-/*
-console.log("Running in development mode");
-export * from "./development.js";
-//*/
+  OWNER_USER: string;
 
-//*
-if (process.env.NODE_ENV !== "production") {
-  console.error(
-    "Error: Application is configured for production but running in development mode. Exiting.",
-  );
-  process.exit(ExitErrors.WRONG_ENVIRONMENT);
+  LOG_CHANNELS: {
+    ACTIVITY: string;
+    AUDIT: string;
+  };
 }
-export * from "./makeshift.js";
-//*/
+
+let config: Configuration;
+if (process.env.NODE_ENV === "production") {
+  config = (await import("./makeshift.js")).default;
+} else {
+  console.log("Loaded configuration for development mode");
+  config = (await import("./development.js")).default;
+}
+
+export default config;
