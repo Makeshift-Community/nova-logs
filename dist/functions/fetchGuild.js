@@ -1,6 +1,7 @@
-import { GUILD as guildId } from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.js";
 export default async function (client) {
-    const makeshift = await client.guilds.fetch(guildId).catch(() => {
+    const GUILD_ID = CONFIG.GUILD;
+    const makeshift = await client.guilds.fetch(GUILD_ID).catch(() => {
         console.error("Could not fetch Makeshift guild.");
     });
     if (makeshift === undefined) {

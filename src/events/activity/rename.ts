@@ -9,9 +9,8 @@ import {
   time,
 } from "discord.js";
 
-import { GUILD as guildId } from "../../resources/configuration.js";
+import CONFIG from "../../resources/configuration.js";
 import escapeMarkdown from "../../utils/escapeMarkdown.js";
-import { Channels } from "../../resources/configuration.js";
 import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
 import announce from "../../functions/announce.js";
 
@@ -46,7 +45,10 @@ const handleUserUpdate = async function (
   if (oldUser.displayName === newUser.displayName) return;
 
   // Check if user is Makeshift member
-  const guild = await newUser.client.guilds.fetch(guildId).catch(console.error);
+  const GUILD_ID = CONFIG.GUILD;
+  const guild = await newUser.client.guilds
+    .fetch(GUILD_ID)
+    .catch(console.error);
   if (guild === undefined) return;
   const member = await guild.members.fetch(newUser.id).catch(console.error);
   if (member === undefined) return;
@@ -68,7 +70,7 @@ function announceMemberDisplayNameChange(
 
   // Attempt announcement
 
-  const channel = Channels.LOGS_ACTIVITY;
+  const CHANNEL_ID = CONFIG.LOG_CHANNELS.ACTIVITY;
   const content = `📝 ${user.toString()} changed their name`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
@@ -86,7 +88,7 @@ function announceMemberDisplayNameChange(
     });
   }
 
-  announce(user.client, channel, content, embed).catch(() => {
+  announce(user.client, CHANNEL_ID, content, embed).catch(() => {
     console.error("Failed to announce member rename");
   });
 }

@@ -1,8 +1,12 @@
-export const GUILD = "272036959348588555";
+import { Configuration } from "./configuration.js";
 
-export const OWNER = "153595272465743872";
+export default {
+  GUILD: "272036959348588555",
 
-export const enum Channels {
-  LOGS_ACTIVITY = "303662183558938625",
-  LOGS_AUDIT = "",
-}
+  OWNER_USER: "153595272465743872",
+
+  LOG_CHANNELS: {
+    ACTIVITY: "303662183558938625",
+    AUDIT: "",
+  },
+} as const as Configuration;
