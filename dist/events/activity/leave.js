@@ -12,8 +12,6 @@ const handle = function (member) {
     console.log(`guildMemberRemove: ${member.user.id} alias ${member.displayName}`);
     // Announce
     const channel = "1008538549529878679" /* Channels.LOGS_ACTIVITY */;
-    // TODO: Remove once discord.js 14.14.0 is released
-    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     const content = `📤 ${member.toString()} left`;
     const embed = new EmbedBuilder().setColor(Colors.Yellow).addFields({
         name: "Alias",
