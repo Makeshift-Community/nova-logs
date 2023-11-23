@@ -1,13 +1,9 @@
-//*
-console.log("Running in development mode");
-export * from "./development.js";
-//*/
-/*
-if (process.env.NODE_ENV !== "production") {
-  console.error(
-    "Error: Application is configured for production but running in development mode. Exiting.",
-  );
-  process.exit(ExitErrors.WRONG_ENVIRONMENT);
+let config;
+if (process.env.NODE_ENV === "production") {
+    config = (await import("./makeshift.js")).default;
 }
-export * from "./makeshift.js";
-//*/
+else {
+    console.log("Loaded configuration for development mode");
+    config = (await import("./development.js")).default;
+}
+export default config;

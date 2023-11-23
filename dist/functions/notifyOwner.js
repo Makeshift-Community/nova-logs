@@ -1,6 +1,7 @@
-import { OWNER as ownerId } from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.js";
 export default async function (client) {
-    const nkn1396 = await client.users.fetch(ownerId).catch(() => {
+    const OWNER_ID = CONFIG.OWNER_USER;
+    const nkn1396 = await client.users.fetch(OWNER_ID).catch(() => {
         console.error("Failed to fetch owner.");
     });
     if (nkn1396 === undefined) {
