@@ -19,7 +19,7 @@ export default function (client: Client): void {
   client.on("userUpdate", handleUserUpdate);
 }
 
-function handleMemberUpdate (
+function handleMemberUpdate(
   oldMember: GuildMember | PartialGuildMember,
   newMember: GuildMember,
 ): void {
@@ -34,11 +34,11 @@ function handleMemberUpdate (
     oldMember.displayName,
     newMember.displayName,
     newMember.user,
-    false
+    false,
   );
-};
+}
 
-async function handleUserUpdate (
+async function handleUserUpdate(
   oldUser: User | PartialUser,
   newUser: User,
 ): Promise<void> {
@@ -57,8 +57,13 @@ async function handleUserUpdate (
   // Check if member already has a nickname
   if (member.nickname !== null) return;
 
-  announceMemberDisplayNameChange(oldUser.username, newUser.username, newUser, true);
-};
+  announceMemberDisplayNameChange(
+    oldUser.username,
+    newUser.username,
+    newUser,
+    true,
+  );
+}
 
 function announceMemberDisplayNameChange(
   oldName: string | null,

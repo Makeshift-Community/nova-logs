@@ -11,10 +11,9 @@ export default async function (
   embed: EmbedBuilder,
 ) {
   // Attempt announcement
-  const logChannel = await client.channels.fetch(channel)
-    .catch(() => {
-      console.error("Could not fetch log channel.");
-    });
+  const logChannel = await client.channels.fetch(channel).catch(() => {
+    console.error("Could not fetch log channel.");
+  });
   if (logChannel === null) return;
   if (!(logChannel instanceof TextChannel)) return;
 
