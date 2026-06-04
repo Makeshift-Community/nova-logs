@@ -19,7 +19,7 @@ export default function (client: Client): void {
   client.on("userUpdate", handleUserUpdate);
 }
 
-const handleMemberUpdate = function (
+function handleMemberUpdate (
   oldMember: GuildMember | PartialGuildMember,
   newMember: GuildMember,
 ): void {
@@ -37,7 +37,7 @@ const handleMemberUpdate = function (
   );
 };
 
-const handleUserUpdate = async function (
+async function handleUserUpdate (
   oldUser: User | PartialUser,
   newUser: User,
 ): Promise<void> {
