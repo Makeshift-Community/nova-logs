@@ -1,18 +1,18 @@
 import {
   Client,
   GuildMember,
-  PartialGuildMember,
+  type PartialGuildMember,
   User,
-  PartialUser,
+  type PartialUser,
   Colors,
   EmbedBuilder,
   time,
 } from "discord.js";
 
-import CONFIG from "../../resources/configuration.js";
-import escapeMarkdown from "../../utils/escapeMarkdown.js";
-import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
-import announce from "../../functions/announce.js";
+import CONFIG from "../../resources/configuration.ts";
+import escapeMarkdown from "../../utils/escapeMarkdown.ts";
+import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.ts";
+import announce from "../../functions/announce.ts";
 
 export default function (client: Client): void {
   client.on("guildMemberUpdate", handleMemberUpdate);

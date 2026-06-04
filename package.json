@@ -2,11 +2,11 @@
   "name": "nova-logs",
   "version": "4.0.0",
   "description": "A bot for logging basic user activity on the Makeshift Discord guild.",
-  "main": "dist/server.js",
+  "main": "index.ts",
+  "type": "module",
   "engines": {
     "node": "^24.16.0"
   },
-  "type": "module",
   "scripts": {
     "start": "node .",
     "lint": "npx prettier --write . && npx eslint .",

@@ -1,5 +1,5 @@
 import { Client, TextChannel, EmbedBuilder } from "discord.js";
-import CONFIG from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.ts";
 
 type LogChannelsType = typeof CONFIG.LOG_CHANNELS;
 type ChannelTypes = LogChannelsType[keyof LogChannelsType];

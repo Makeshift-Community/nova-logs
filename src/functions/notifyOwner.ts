@@ -1,5 +1,5 @@
 import { Client } from "discord.js";
-import CONFIG from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.ts";
 
 export default async function (client: Client): Promise<void> {
   const OWNER_ID = CONFIG.OWNER_USER;
