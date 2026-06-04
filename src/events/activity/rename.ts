@@ -34,6 +34,7 @@ function handleMemberUpdate (
     oldMember.displayName,
     newMember.displayName,
     newMember.user,
+    false
   );
 };
 
@@ -56,13 +57,14 @@ async function handleUserUpdate (
   // Check if member already has a nickname
   if (member.nickname !== null) return;
 
-  announceMemberDisplayNameChange(oldUser.username, newUser.username, newUser);
+  announceMemberDisplayNameChange(oldUser.username, newUser.username, newUser, true);
 };
 
 function announceMemberDisplayNameChange(
   oldName: string | null,
   newName: string,
   user: User,
+  DEBUG_isUserUpdate: boolean,
 ) {
   console.log(
     `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`,
@@ -71,7 +73,8 @@ function announceMemberDisplayNameChange(
   // Attempt announcement
 
   const CHANNEL_ID = CONFIG.LOG_CHANNELS.ACTIVITY;
-  const content = `📝 ${user.toString()} changed their name`;
+  const DEBUG_prefix = DEBUG_isUserUpdate ? "userUpdate" : "guildMemberUpdate";
+  const content = `📝 ${user.toString()} changed their name (${DEBUG_prefix})`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(
