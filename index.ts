@@ -2,11 +2,11 @@
 import { Client, IntentsBitField, Partials } from "discord.js";
 
 // Custom dependencies
-import TOKEN from "../token.js"; // I'm an idiot, thanks for the lesson
-import { ExitErrors } from "./utils/ExitErrors.js";
-import registerListeners from "./events/index.js";
-import fetchMakeshiftMembers from "./functions/fetchGuild.js";
-import notifyOwner from "./functions/notifyOwner.js";
+import TOKEN from "./token.ts"; // I'm an idiot, thanks for the lesson
+import { ExitErrors } from "./src/utils/ExitErrors.ts";
+import registerListeners from "./src/events/index.ts";
+import fetchMakeshiftMembers from "./src/functions/fetchGuild.ts";
+import notifyOwner from "./src/functions/notifyOwner.ts";
 
 // Display warning if we're in development mode
 if (process.env.NODE_ENV !== "production") {

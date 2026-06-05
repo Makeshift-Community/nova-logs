@@ -1,25 +1,25 @@
 import {
   Client,
   GuildMember,
-  PartialGuildMember,
+  type PartialGuildMember,
   User,
-  PartialUser,
+  type PartialUser,
   Colors,
   EmbedBuilder,
   time,
 } from "discord.js";
 
-import CONFIG from "../../resources/configuration.js";
-import escapeMarkdown from "../../utils/escapeMarkdown.js";
-import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.js";
-import announce from "../../functions/announce.js";
+import CONFIG from "../../resources/configuration.ts";
+import escapeMarkdown from "../../utils/escapeMarkdown.ts";
+import isNotMakeshiftEvent from "../../functions/isNotMakeshiftEvent.ts";
+import announce from "../../functions/announce.ts";
 
 export default function (client: Client): void {
   client.on("guildMemberUpdate", handleMemberUpdate);
   client.on("userUpdate", handleUserUpdate);
 }
 
-const handleMemberUpdate = function (
+function handleMemberUpdate(
   oldMember: GuildMember | PartialGuildMember,
   newMember: GuildMember,
 ): void {
@@ -34,10 +34,11 @@ const handleMemberUpdate = function (
     oldMember.displayName,
     newMember.displayName,
     newMember.user,
+    false,
   );
-};
+}
 
-const handleUserUpdate = async function (
+async function handleUserUpdate(
   oldUser: User | PartialUser,
   newUser: User,
 ): Promise<void> {
@@ -56,13 +57,19 @@ const handleUserUpdate = async function (
   // Check if member already has a nickname
   if (member.nickname !== null) return;
 
-  announceMemberDisplayNameChange(oldUser.username, newUser.username, newUser);
-};
+  announceMemberDisplayNameChange(
+    oldUser.username,
+    newUser.username,
+    newUser,
+    true,
+  );
+}
 
 function announceMemberDisplayNameChange(
   oldName: string | null,
   newName: string,
   user: User,
+  DEBUG_isUserUpdate: boolean,
 ) {
   console.log(
     `guildMemberDisplaynameUpdate: ${user.id} alias ${oldName} to ${newName}`,
@@ -71,7 +78,8 @@ function announceMemberDisplayNameChange(
   // Attempt announcement
 
   const CHANNEL_ID = CONFIG.LOG_CHANNELS.ACTIVITY;
-  const content = `📝 ${user.toString()} changed their name`;
+  const DEBUG_prefix = DEBUG_isUserUpdate ? "userUpdate" : "guildMemberUpdate";
+  const content = `📝 ${user.toString()} changed their name (${DEBUG_prefix})`;
   const embed = new EmbedBuilder()
     .setColor(Colors.Blue)
     .addFields(

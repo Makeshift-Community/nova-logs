@@ -1,6 +1,6 @@
 import { Guild } from "discord.js";
 
-import CONFIG from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.ts";
 
 export default function (guild: Guild) {
   const GUILD_ID = CONFIG.GUILD;

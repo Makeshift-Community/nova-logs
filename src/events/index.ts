@@ -2,9 +2,9 @@
 import { Client } from "discord.js";
 
 // Custom dependencies
-import rename from "./activity/rename.js";
-import join from "./activity/join.js";
-import leave from "./activity/leave.js";
+import rename from "./activity/rename.ts";
+import join from "./activity/join.ts";
+import leave from "./activity/leave.ts";
 
 export default function (client: Client): void {
   join(client);

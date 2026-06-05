@@ -1,4 +1,4 @@
-import { Configuration } from "./configuration.js";
+import type { Configuration } from "./configuration.ts";
 
 export default {
   GUILD: "272036959348588555",
@@ -7,6 +7,5 @@ export default {
 
   LOG_CHANNELS: {
     ACTIVITY: "303662183558938625",
-    AUDIT: "",
   },
 } as const as Configuration;

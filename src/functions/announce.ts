@@ -1,5 +1,5 @@
 import { Client, TextChannel, EmbedBuilder } from "discord.js";
-import CONFIG from "../resources/configuration.js";
+import CONFIG from "../resources/configuration.ts";
 
 type LogChannelsType = typeof CONFIG.LOG_CHANNELS;
 type ChannelTypes = LogChannelsType[keyof LogChannelsType];
@@ -11,13 +11,9 @@ export default async function (
   embed: EmbedBuilder,
 ) {
   // Attempt announcement
-  let logChannel;
-  try {
-    logChannel = await client.channels.fetch(channel);
-  } catch (error) {
-    console.error("Could not fetch modlogs channel.");
-    return;
-  }
+  const logChannel = await client.channels.fetch(channel).catch(() => {
+    console.error("Could not fetch log channel.");
+  });
   if (logChannel === null) return;
   if (!(logChannel instanceof TextChannel)) return;
 
