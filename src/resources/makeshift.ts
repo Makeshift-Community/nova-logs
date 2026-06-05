@@ -7,6 +7,5 @@ export default {
 
   LOG_CHANNELS: {
     ACTIVITY: "303662183558938625",
-    AUDIT: "",
   },
 } as const as Configuration;

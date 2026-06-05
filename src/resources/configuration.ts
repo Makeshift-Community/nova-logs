@@ -5,7 +5,6 @@ export interface Configuration {
 
   LOG_CHANNELS: {
     ACTIVITY: string;
-    AUDIT: string;
   };
 }
 
