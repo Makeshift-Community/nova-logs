@@ -1,8 +1,8 @@
 // External dependencies
+import 'dotenv/config';
 import { Client, IntentsBitField, Partials } from "discord.js";
 
 // Custom dependencies
-import TOKEN from "./token.ts"; // I'm an idiot, thanks for the lesson
 import { ExitErrors } from "./src/utils/ExitErrors.ts";
 import registerListeners from "./src/events/index.ts";
 import fetchMakeshiftMembers from "./src/functions/fetchGuild.ts";
@@ -24,7 +24,7 @@ function handleLoginError(error: Error) {
   process.exit(ExitErrors.LOGIN);
 }
 
-await bot.login(TOKEN).catch(handleLoginError);
+await bot.login(process.env.TOKEN).catch(handleLoginError);
 console.log(`Logged in as ${bot.user?.tag}`);
 
 // Fetch members, register event listeners, and notify owner
