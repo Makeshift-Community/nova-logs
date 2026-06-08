@@ -1,6 +1,6 @@
 {
   "name": "nova-logs",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "A bot for logging basic user activity on the Makeshift Discord guild.",
   "main": "bot.ts",
   "type": "module",
