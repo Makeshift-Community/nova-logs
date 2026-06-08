@@ -1,5 +1,5 @@
 // External dependencies
-import 'dotenv/config';
+import "dotenv/config";
 import { Client, IntentsBitField, Partials } from "discord.js";
 
 // Custom dependencies
